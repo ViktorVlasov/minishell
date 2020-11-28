@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/11/28 21:52:43 by efumiko          ###   ########.fr       */
+/*   Created: 2020/11/28 21:19:11 by efumiko           #+#    #+#             */
+/*   Updated: 2020/11/28 21:30:27 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# define BUFFER_SIZE 5
-# include "libft/libft.h"
+#include "../minishell.h"
 
-char        **parser(char *line, t_data vars);
-int			get_next_line(int fd, char **line);
-char        **semicolon(char *line);
-
-typedef struct      s_data
+void ft_env(char **envp)
 {
-    char            **envp;
-}                   t_data;
+    int i;
 
-/* 
-* Commands
-*/
-
-void        ft_echo(char **args);
-void        ft_pwd();
-void ft_env(char **envp);
-
-#endif
+    i = 0;
+    while (envp[i])
+    {
+        ft_putstr_fd(envp[i], 1);
+        ft_putchar_fd('\n', 0);
+        i++;
+    }
+}

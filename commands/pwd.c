@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/11/28 21:52:43 by efumiko          ###   ########.fr       */
+/*   Created: 2020/11/28 20:31:44 by efumiko           #+#    #+#             */
+/*   Updated: 2020/11/28 21:00:59 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# define BUFFER_SIZE 5
-# include "libft/libft.h"
+#include "../minishell.h"
 
-char        **parser(char *line, t_data vars);
-int			get_next_line(int fd, char **line);
-char        **semicolon(char *line);
-
-typedef struct      s_data
+void ft_pwd()
 {
-    char            **envp;
-}                   t_data;
+    char *dir;
 
-/* 
-* Commands
-*/
-
-void        ft_echo(char **args);
-void        ft_pwd();
-void ft_env(char **envp);
-
-#endif
+    dir = getcwd(NULL, 0);
+    ft_putstr_fd(dir, 1);
+    ft_putchar_fd('\n', 1);
+    free(dir);
+}
