@@ -6,11 +6,11 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/11/28 22:32:48 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/11/28 22:34:01 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-ddracddrac4f         21ddrac #include "../minishell.h"
+#include "../minishell.h"
 
 int         in_commas(char *line, int symb_id, char comma_type)
 {
