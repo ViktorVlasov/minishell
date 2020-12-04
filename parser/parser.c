@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/11/28 22:25:59 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/04 22:40:15 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
-void	*ft_realloc(void *ptr, size_t newsize)
+static void	*ft_realloc(void *ptr, size_t newsize)
 {
 	char	*newptr;
 	size_t	cursize;
@@ -46,11 +47,21 @@ char        **parser(char *line, t_data vars)
     char    **parsed_args;
     char    *spec_symbols = " $'\"";
     int     i;
+    int     commands_amount;
     int     j;
 
     i = 0;
-
+    
     parsed_by_semicolon = semicolon(line);
+    commands_amount = get_amount_line(parsed_by_semicolon);
+    // printf("%d", j);
+    while (i < commands_amount)
+    {
+        parsed_by_semicolon[i] = ft_strtrim(parsed_by_semicolon[i], " ");
+        printf("[%d]%s",i, parsed_by_semicolon[i]);
+        i++;
+    }
+    
     // parsed_args = (char**)malloc(get_amount_line(line) * sizeof(char*));
     // while (i < argc)
     // {
@@ -67,5 +78,5 @@ char        **parser(char *line, t_data vars)
     //     }
     //     i++;
     // }
-        
+    return (NULL);
 }
