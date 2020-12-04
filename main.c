@@ -6,11 +6,11 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/11/28 21:31:51 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/04 23:32:44 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-6#include "minishell.h"
+#include "minishell.h"
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
