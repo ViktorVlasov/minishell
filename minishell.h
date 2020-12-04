@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/11/28 21:52:43 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/04 19:19:03 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 # define BUFFER_SIZE 5
 # include "libft/libft.h"
 
-char        **parser(char *line, t_data vars);
-int			get_next_line(int fd, char **line);
-char        **semicolon(char *line);
-
 typedef struct      s_data
 {
     char            **envp;
 }                   t_data;
+
+char        **parser(char *line, t_data vars);
+int			get_next_line(int fd, char **line);
+char        **semicolon(char *line);
+
+
 
 /* 
 * Commands
