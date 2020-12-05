@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 22:27:22 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/05 23:09:33 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ char        *just_add(char *str, char symb)
 
     length = ft_strlen(str);
     new_str = ft_realloc(str, length, length + 1);
-    if (length == 0)
-        new_str[0] = symb;    
-    else
-        new_str[length + 1] = symb;
+    new_str[length] = symb;
     return (new_str);
 }
 void        one_comma_worker()
@@ -51,6 +48,7 @@ char        **parser(char *line, t_data vars)
     ready_array_size = 0;
     parsed_by_semicolon = semicolon(line);
     commands_amount = get_amount_line(parsed_by_semicolon);
+    buffer = NULL;
     // printf("%d", j);
     while (i < commands_amount)
     {
@@ -65,20 +63,24 @@ char        **parser(char *line, t_data vars)
         while (i < ft_strlen(parsed_by_semicolon[counter]))
         {
             vars.args = ft_realloc_2arr(vars.args, ready_array_size + 1, 0);
-            while (parsed_by_semicolon[counter][i] != ' ')
+            while (parsed_by_semicolon[counter][i] != ' ' && parsed_by_semicolon[counter][i] != '\0')
             {
                 if (ft_strchr(spec_symbols, parsed_by_semicolon[counter][i]) == NULL)
-                    just_add(buffer, parsed_by_semicolon[counter][i]);
+                    buffer = just_add(buffer, parsed_by_semicolon[counter][i]);
                 else if (parsed_by_semicolon[counter][i] == '\'')
                     one_comma_worker();
                 else if (parsed_by_semicolon[counter][i] == '\"')
                     two_comma_worker();
                 i++;
             }
-            
+            vars.args = add_elem_in_arrayStr(vars.args, buffer);
+            if (buffer)
+                free(buffer);
+            buffer = NULL;
             // else if (parsed_by_semicolon[counter][i] == ' ')
             ready_array_size++;
         }
+        //тут вызов функции обработчика
         counter++;
     }
     return (NULL);
