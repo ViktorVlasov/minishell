@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/05 19:09:30 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/05 19:37:47 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int without_arguments_handler(t_data *data, char *old_pwd)
 {
     char *home_path;
 
-    home_path = get_value_from_var(data->args, "HOME=");
+    home_path = get_value_from_var(data->envp, "HOME=");
     if (!home_path)
 	{
 		ft_putstr_fd("cd: HOME not set\n", 2);
@@ -183,7 +183,24 @@ int without_arguments_handler(t_data *data, char *old_pwd)
 
 int minus_handler(t_data *data)
 {
-    
+    char *value_of_old_pwd;
+
+    value_of_old_pwd = get_value_from_var(data->envp, "OLDPWD=");
+    if (!value_of_old_pwd)
+    {
+		ft_putstr_fd("cd: HOME not set\n", 2);
+		return (errno); //return -1
+	}
+    if (ft_strlen(value_of_old_pwd) == 0)
+        change_oldpwd(data, value_of_old_pwd);
+    else if (chdir() == 0)
+    {
+        change_oldpwd(data, old_pwd);
+        change_pwd(data);  
+    }
+    else
+        path_error(home_path);
+    return (0);
 }
 
 int tilda_handler(t_data *data)
