@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 21:32:11 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/05 22:57:58 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char        **ft_strdup_2arr(char **arr);
 
 void        ft_echo(char **args);
 void        ft_pwd();
-void ft_env(char **envp);
+void        ft_env(char **envp);
+int         ft_export(char **envp);
+int         ft_cd(t_data *data);
 
 #endif

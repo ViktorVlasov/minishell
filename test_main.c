@@ -10,5 +10,5 @@ int main(int argc, char *argv[], char *envp[])
 
     // ft_echo(argv);
     // ft_pwd();
-    ft_env(envp);
+    ft_export(envp);
 }
