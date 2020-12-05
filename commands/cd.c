@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/04 22:55:18 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/05 19:09:30 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char *find_elem_in_arrayStr(char **src, char *elem, int boolFindPart)
     if (!src)
         return (NULL);
     if (!elem)
-        return (src);
+        return (NULL);
     while (src[i])
     {
         if ((boolFindPart == 0) && (ft_strcmp(src[i], elem) == 0))
@@ -93,7 +93,32 @@ char *find_elem_in_arrayStr(char **src, char *elem, int boolFindPart)
             return (src[i]);
         i++;
     }
-    return (0);
+    return (NULL);
+}
+
+/*
+** example value of name_var - "HOME="
+*/
+char *get_value_from_var(char **envp, char *name_var)
+{
+    int i;
+    char *result;
+    
+    i = 0;
+    if (!envp)
+        return (NULL);
+    if (!name_var)
+        return (NULL);
+    while (envp[i])
+    {
+        if (ft_strncmp(envp[i], name_var, ft_strlen(name_var)) == 0)
+        {
+            result = envp[i] + ft_strlen(name_var);
+            return (result);
+        }
+        i++;
+    }
+    return (NULL);
 }
 
 void change_oldpwd(t_data *data, char *old_pwd)
@@ -112,12 +137,16 @@ void change_oldpwd(t_data *data, char *old_pwd)
 void change_pwd(t_data *data)
 {
     char *pwd;
+    char *tmp;
 
-    if (find_elem_in_arrayStr(data->envp, "PWD="))
+    pwd = getcwd(NULL, 0);
+    if (find_elem_in_arrayStr(data->envp, "PWD=", 1))
         data->envp = delete_elem_in_arrayStr(data->envp, "PWD=");
-    pwd = ft_strjoin("PWD=", data->args[1]);
+    tmp = pwd;
+    pwd = ft_strjoin("PWD=", pwd);
     data->envp = add_elem_in_arrayStr(data->envp, pwd);
     free(pwd);
+    free(tmp);
 }
 
 static int		path_error(char *path)
@@ -130,24 +159,47 @@ static int		path_error(char *path)
 	return (errno);
 }
 
-int minus_handler(t_data *data);
-int tilda_handler(t_data *data);
+int without_arguments_handler(t_data *data, char *old_pwd)
+{
+    char *home_path;
+
+    home_path = get_value_from_var(data->args, "HOME=");
+    if (!home_path)
+	{
+		ft_putstr_fd("cd: HOME not set\n", 2);
+		return (errno); //return -1
+	}
+    if (ft_strlen(home_path) == 0)
+        change_oldpwd(data, old_pwd);
+    else if (chdir(home_path) == 0)
+    {
+        change_oldpwd(data, old_pwd);
+        change_pwd(data);  
+    }
+    else
+        path_error(home_path);
+    return (0);
+}
+
+int minus_handler(t_data *data)
+{
+    
+}
+
+int tilda_handler(t_data *data)
+{
+    
+}
 
 int ft_cd(t_data *data)
 {
     char *old_pwd;
+    char *home;
 
     old_pwd = getcwd(NULL, 0);
     if (!data->args[1])
     {
-        if (!(home = f_env_find_elem(data->envp, "HOME", "=")))
-		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
-			return (errno);
-		}
-        
-        chdir("/Users/efumiko");
-        // переходим в корень chdir($HOME)
+        without_arguments_handler(data, old_pwd);
     }
     if (ft_strcmp(data->args[1], "-\0"))
         return minus_handler(data);
@@ -155,7 +207,7 @@ int ft_cd(t_data *data)
         return tilda_handler(data);
     else
     {
-        if (chdir(data->args[1] == 0))
+        if (chdir(data->args[1]) == 0)
         {
             change_oldpwd(data, old_pwd);
             change_pwd(data);

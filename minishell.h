@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 19:20:08 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/05 19:24:09 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # define BUFFER_SIZE 5
 # include "libft/libft.h"
+# include "errno.h" 
 
 typedef struct      s_data
 {
