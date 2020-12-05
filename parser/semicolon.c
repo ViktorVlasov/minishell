@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/04 21:47:03 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/05 19:20:00 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,71 +44,6 @@ int         in_screening(char *line, int symb_id)
     return (0);
 }
 
-char        **ft_big_strdup(char **arr, size_t size, int flag)
-{
-    char    **res;
-    int     i;
-
-    i = 0;
-    res = (char **)malloc(size * sizeof(char*));
-    if (res == NULL)
-        return (NULL);
-    while (i < size - 1 - flag)
-    {
-        res[i] = ft_strdup(arr[i]);
-        i++;
-    }
-    i = 0;
-    while (i < size - 1 - flag)
-    {
-        free(arr[i]);
-        i++;
-    }
-    if (size - flag > 1)
-        free(arr);
-    return(res);
-}
-
-// static void	*ft_realloc(void *ptr, size_t newsize)
-// {
-// 	char	*newptr;
-// 	size_t	cursize;
-
-// 	if (ptr == 0)
-// 		return (malloc(newsize));
-// 	cursize = sizeof(ptr);
-// 	if (newsize <= cursize)
-// 		return (ptr);
-// 	newptr = malloc(newsize);
-// 	ft_memcpy(ptr, newptr, cursize);
-// 	free(ptr);
-// 	return (newptr);
-// }
-
-static void	*ft_realloc(void *ptr, int size, int newsize)
-{
-	char	*str;
-	char	*new;
-	int		i;
-
-	str = (char*)ptr;
-	if (!(new = (char*)malloc(sizeof(char) * newsize + 1)))
-	{
-		if (ptr && size != 0)
-			free(ptr);
-		return (NULL);
-	}
-	i = -1;
-	while (++i < size)
-		*(new + i) = *(str + i);
-	while (i < newsize)
-		*(new + i++) = '\0';
-	if (ptr && size != 0)
-		free(ptr);
-	return (new);
-}
-
-
 char        **semicolon(char *line)
 {
     int     i;
@@ -122,7 +57,6 @@ char        **semicolon(char *line)
     previous_semicolon_position = 0;
     counter = 0;
     rem = NULL;
-    // parsed_by_semicolon = (char**)malloc(1 *sizeof(char*));
     i = 0;
     while (i < ft_strlen(line))
     {
