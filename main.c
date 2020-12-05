@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/04 23:34:14 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/05 19:21:03 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int main(int argc, char **argv, char **envp)
     //char **args_for_commands;
     //parser(argc, argv, envp);
     //commands();
-    char    *line = "echo ; echo 123";
+    char    *line = "echo ; ech'o' 1\"2\"3";
     t_data  vars;
-
-
+    vars.envp = ft_big_strdup(envp, get_amount_line(envp), 0);
+    
     parser(line, vars);
     // line = NULL;
     // vars.envp = envp;
