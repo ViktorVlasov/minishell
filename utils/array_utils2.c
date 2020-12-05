@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   array_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:12:51 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 19:19:55 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/05 21:31:56 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		get_amount_line(char **lines)
 	return (i);
 }
 
-char        **ft_big_strdup(char **arr, size_t size, int flag)
+char        **ft_realloc_2arr(char **arr, size_t size, int flag)
 {
     char    **res;
     int     i;
@@ -46,6 +46,25 @@ char        **ft_big_strdup(char **arr, size_t size, int flag)
     }
     if (size - flag > 1)
         free(arr);
+    return(res);
+}
+
+char        **ft_strdup_2arr(char **arr)
+{
+    char    **res;
+    int     i;
+	int		size;
+
+	size = get_amount_line(arr); 
+    i = 0;
+    res = (char **)malloc(size * sizeof(char*));
+    if (res == NULL)
+        return (NULL);
+    while (i < size)
+    {
+        res[i] = ft_strdup(arr[i]);
+        i++;
+    }
     return(res);
 }
 
