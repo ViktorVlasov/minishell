@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/04 23:34:34 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/05 17:49:33 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # define BUFFER_SIZE 5
 # include "libft/libft.h"
+# include "errno.h" 
 
 typedef struct      s_data
 {
