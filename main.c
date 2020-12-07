@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 22:39:57 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/07 23:08:37 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 int main(int argc, char **argv, char **envp)
 {
     //char **args_for_commands;
-    char    *line = "echo ; ech'o' 1\"2\"3";
+    char    *line = "echo ; ech\\'ab    co'   1\"2\"3";
+    //echo ; ech'ab    co'   23
+    // char    *line = "echo ; ech'ab    co'   23";
+    // char    *line;
     t_data  vars;
     vars.envp = ft_strdup_2arr(envp);
     
@@ -30,14 +33,22 @@ int main(int argc, char **argv, char **envp)
     //     i++;
     // }
     
-     parser(line, vars);
+    // get_next_line(0, &line);
+    parser(line, vars);
     
     // while (get_next_line(0, &line) > 0)
     // {
     //     parser(line, vars);
     //     free(line);
     // }
-
+    
+    check = get_amount_line(vars.args);
+    while (i < check)
+    {
+        printf("%s\n", vars.args[i]);
+        i++;
+    }
+    
     //ft_echo(argv);
     // ft_pwd();
 }

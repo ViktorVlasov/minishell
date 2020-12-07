@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:12:51 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/07 21:18:14 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/07 22:51:59 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,24 @@ int		get_amount_line(char **lines)
 	return (i);
 }
 
-char        **ft_realloc_2arr(char **arr, size_t size, int flag)
+char        **ft_realloc_2arr(char **arr, size_t prev_size ,size_t size)
 {
     char    **res;
     int     i;
 
     i = 0;
-    res = (char **)malloc(size * sizeof(char*));
+    res = (char **)malloc((size + 1) * sizeof(char*));
     if (res == NULL)
         return (NULL);
-    while (i < size - 1 - flag)
+    while (i < prev_size)
     {
         res[i] = ft_strdup(arr[i]);
-        i++;
-    }
-    i = 0;
-    while (i < size - 1 - flag)
-    {
         free(arr[i]);
         i++;
     }
-    if (size - flag > 1)
+    while (i < size + 1)
+        res[i++] = NULL;
+    if (arr && prev_size != 0)
         free(arr);
     return(res);
 }
@@ -85,7 +82,7 @@ void	*ft_realloc(void *ptr, int size, int newsize)
 	i = -1;
 	while (++i < size)
 		*(new + i) = *(str + i);
-	while (i < newsize)
+	while (i < newsize + 1)
 		*(new + i++) = '\0';
 	if (ptr && size != 0)
 		free(ptr);

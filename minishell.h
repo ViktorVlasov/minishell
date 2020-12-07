@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 22:57:58 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/07 22:48:53 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct      s_data
 char        **parser(char *line, t_data vars);
 int			get_next_line(int fd, char **line);
 char        **semicolon(char *line);
-char        **ft_realloc_2arr(char **arr, size_t size, int flag);
+char        **ft_realloc_2arr(char **arr, size_t prev_size ,size_t size);
 int		    get_amount_line(char **lines);
 void	    *ft_realloc(void *ptr, int size, int newsize);
 char        **add_elem_in_arrayStr(char **src, char *elem);
