@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:12:51 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 21:31:56 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/07 21:18:14 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char        **ft_strdup_2arr(char **arr)
 
 	size = get_amount_line(arr); 
     i = 0;
-    res = (char **)malloc(size * sizeof(char*));
+    res = (char **)malloc(sizeof(char*) * (size + 1));
     if (res == NULL)
         return (NULL);
     while (i < size)
@@ -65,6 +65,7 @@ char        **ft_strdup_2arr(char **arr)
         res[i] = ft_strdup(arr[i]);
         i++;
     }
+    res[i] = NULL;
     return(res);
 }
 
