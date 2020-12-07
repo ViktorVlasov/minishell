@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 22:57:58 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/07 23:26:51 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char        **ft_realloc_2arr(char **arr, size_t size, int flag);
 int		    get_amount_line(char **lines);
 void	    *ft_realloc(void *ptr, int size, int newsize);
 char        **add_elem_in_arrayStr(char **src, char *elem);
-char        **delete_elem_in_arrayStr(char **src, char *elem);
+char        **delete_elem_in_arrayStr(char **src, char *elem, int boolFindPart);
 char        *find_elem_in_arrayStr(char **src, char *elem, int boolFindPart);
 char        *get_value_from_var(char **envp, char *name_var);
 char        **ft_strdup_2arr(char **arr);
@@ -42,5 +42,6 @@ void        ft_pwd();
 void        ft_env(char **envp);
 int         ft_export(char **envp);
 int         ft_cd(t_data *data);
+int         ft_exit(t_data *data);
 
 #endif

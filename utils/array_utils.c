@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:32:33 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 22:59:37 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/07 23:38:09 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ char **add_elem_in_arrayStr(char **src, char *elem)
     return (res);
 }
 
-char **delete_elem_in_arrayStr(char **src, char *elem)
+/*
+** boolFindPart = 1 - string from src includes elem
+** boolFindPart = 0 - string from src equals elem
+*/
+char **delete_elem_in_arrayStr(char **src, char *elem, int boolFindPart)
 {
     char **res;
     int i;
@@ -60,10 +64,10 @@ char **delete_elem_in_arrayStr(char **src, char *elem)
     k = 0;
     while (src[i])
     {
-        if (ft_strncmp(src[i], elem, ft_strlen(elem)) != 0)
-            res[k++] = src[i++];
-        else
+        if (((ft_strncmp(src[i], elem, ft_strlen(elem)) == 0) && boolFindPart) || (ft_strcmp(src[i], elem) && (boolFindPart == 0)))
             free(src[i++]);
+        else
+            res[k++] = src[i++];
     }
     res[k] = NULL;
     free(src);

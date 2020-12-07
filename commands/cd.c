@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/05 22:57:47 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/07 20:26:23 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int without_arguments_handler(t_data *data, char *old_pwd)
     if (!home_path)
 	{
 		ft_putstr_fd("cd: HOME not set\n", 2);
-		return (errno); //return -1
+		return (1);
 	}
     if (ft_strlen(home_path) == 0)
         change_oldpwd(data, old_pwd);
@@ -80,7 +80,7 @@ int minus_handler(t_data *data, char *current_pwd)
     if (!value_of_old_pwd)
     {
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
-		return (errno); //return -1
+		return (1); //return -1
 	}
     if (ft_strlen(value_of_old_pwd) == 0)
     {
@@ -99,28 +99,6 @@ int minus_handler(t_data *data, char *current_pwd)
     return (0);
 }
 
-int tilda_handler(t_data *data, char *old_pwd)
-{
-    char *home_path;
-
-    home_path = get_value_from_var(data->envp, "HOME=");
-    if (!home_path)
-	{
-		ft_putstr_fd("cd: HOME not set\n", 2);
-		return (errno); //return -1
-	}
-    if (ft_strlen(home_path) == 0)
-        change_oldpwd(data, old_pwd);
-    else if (chdir(home_path) == 0)
-    {
-        change_oldpwd(data, old_pwd);
-        change_pwd(data);  
-    }
-    else
-        path_error(home_path);
-    return (0);
-}
-
 int ft_cd(t_data *data)
 {
     char *current_pwd;
@@ -133,8 +111,6 @@ int ft_cd(t_data *data)
     }
     if (ft_strcmp(data->args[1], "-\0"))
         return minus_handler(data, current_pwd);
-    else if (ft_strcmp(data->args[1], "~\0"))
-        return tilda_handler(data, current_pwd);
     else
     {
         if (chdir(data->args[1]) == 0)

@@ -3,12 +3,20 @@
 #include <errno.h>
 #include <stdio.h>
 
+
+
+
 int main(int argc, char *argv[], char *envp[])
 {   
-    // ft_putstr_fd(envp[1], 1);
-    // ft_putchar_fd('\n', 1);
+	// ft_putstr_fd(envp[1], 1);
+	// ft_putchar_fd('\n', 1);
 
-    // ft_echo(argv);
-    // ft_pwd();
-    ft_export(envp);
+	// ft_echo(argv);
+	// ft_pwd();
+	t_data data;
+
+	data.envp = ft_strdup_2arr(envp);
+	data.args = argv;
+
+	ft_exit(&data);
 }
