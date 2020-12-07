@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/05 21:32:53 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/07 22:53:08 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char        **semicolon(char *line)
             if (in_commas(line, i, '\'') == 0 &&
                      in_commas(line, i, '\"') == 0 && in_screening(line, i) == 0)
             {
-                parsed_by_semicolon = ft_realloc_2arr(parsed_by_semicolon, counter + 1, 0);
+                parsed_by_semicolon = ft_realloc_2arr(parsed_by_semicolon, counter, counter + 1);
                 parsed_by_semicolon[counter] = (char *)malloc(i - previous_semicolon_position);
                 ft_strlcpy(parsed_by_semicolon[counter], line + previous_semicolon_position + add_if_semicolon_met, i - previous_semicolon_position + 1 - add_if_semicolon_met);
                 rem = ft_realloc(rem, ft_strlen(rem) ,ft_strlen(line) - i + 1);
@@ -78,9 +78,8 @@ char        **semicolon(char *line)
         }
         i++;
     }
-    parsed_by_semicolon = ft_realloc_2arr(parsed_by_semicolon, counter + 2, 1);
+    parsed_by_semicolon = ft_realloc_2arr(parsed_by_semicolon, counter ,counter + 1);
     parsed_by_semicolon[counter] = (char *)malloc(i - previous_semicolon_position);
     ft_strlcpy(parsed_by_semicolon[counter], line + previous_semicolon_position + add_if_semicolon_met, i - previous_semicolon_position + 1 - add_if_semicolon_met);
-    parsed_by_semicolon[counter + 1] = NULL;
     return (parsed_by_semicolon);
 }
