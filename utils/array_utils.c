@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:32:33 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/11 00:01:34 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/11 00:13:34 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char *get_value_from_var(char **envp, char *name_var)
     {
         if (ft_strncmp(envp[i], name_var, ft_strlen(name_var)) == 0)
         {
-            result = ft_strdup(envp[i] + ft_strlen(name_var));
+            result = envp[i] + ft_strlen(name_var);
             return (result);
         }
         i++;
