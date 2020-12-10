@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:32:33 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/07 23:38:09 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/10 16:00:47 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char *get_value_from_var(char **envp, char *name_var)
     {
         if (ft_strncmp(envp[i], name_var, ft_strlen(name_var)) == 0)
         {
-            result = envp[i] + ft_strlen(name_var);
+            result = ft_strdup(envp[i] + ft_strlen(name_var));
             return (result);
         }
         i++;
