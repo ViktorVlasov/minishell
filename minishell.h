@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/07 23:46:45 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/10 23:44:13 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char        **delete_elem_in_arrayStr(char **src, char *elem, int boolFindPart);
 char        *find_elem_in_arrayStr(char **src, char *elem, int boolFindPart);
 char        *get_value_from_var(char **envp, char *name_var);
 char        **ft_strdup_2arr(char **arr);
+int         in_screening(char *line, int symb_id);
 /* 
 * Commands
 */

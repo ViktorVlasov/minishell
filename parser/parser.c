@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/10 22:20:14 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/11 00:08:36 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,6 @@ char        *one_comma_worker(int *i, char *buffer, char *str)
     }
     return (res);
 }
-char        *two_comma_worker()
-{
-    return (NULL);
-}
 
 char        *variable_handler(char *str, char *dst, int *iterator, t_data vars)
 {
@@ -62,6 +58,7 @@ char        *variable_handler(char *str, char *dst, int *iterator, t_data vars)
     char    *tmp;
     char    *var;
     
+    var = NULL;
     *iterator += 1;
     while (ft_strchr(spec_symbols, str[*iterator]) == NULL && str[*iterator] != '\0')
     {
@@ -87,6 +84,34 @@ char        *variable_handler(char *str, char *dst, int *iterator, t_data vars)
     return(dst);
 }
 
+char        *two_comma_worker(int *i, char *buffer, char *str, t_data vars)
+{
+    int     counter;
+    int     buf_size;
+    int     iterator;
+    int     i_pos;
+    char    *res;
+    
+    *i = *i + 1;
+    i_pos = *i;
+    iterator = 0;
+    counter = 0;
+    buf_size = ft_strlen(buffer);
+    while (str[*i] != '\"' && in_screening(str, *i) == 0)
+    {
+        if (str[*i] != '$')
+		{
+			if(str[*i] == '\\')
+	    		*i += 1;
+            buffer = add_char(buffer, str[*i]);
+		}
+        else if (str[*i] == '$')
+            buffer = variable_handler(str, buffer, i, vars);
+        *i = *i + 1;
+    }
+    return (buffer);
+}
+
 char        **parser(char *line, t_data vars)
 {
     char    **parsed_by_semicolon;
@@ -97,6 +122,7 @@ char        **parser(char *line, t_data vars)
     int     counter;
     int     ready_array_size;
     char    *buffer;
+    char    *tmp;
 
     i = 0;
     counter = 0;
@@ -108,7 +134,9 @@ char        **parser(char *line, t_data vars)
     // printf("%d", 1);
     while (i < commands_amount)
     {
+        tmp = parsed_by_semicolon[i];
         parsed_by_semicolon[i] = ft_strtrim(parsed_by_semicolon[i], " ");
+        free(tmp);
         // printf("[%d]%s",i, parsed_by_semicolon[i]);
         i++;
     }
@@ -131,7 +159,7 @@ char        **parser(char *line, t_data vars)
                 else if (parsed_by_semicolon[counter][i] == '\'')
                     buffer = one_comma_worker(&i, buffer, parsed_by_semicolon[counter]);
                 else if (parsed_by_semicolon[counter][i] == '\"')
-                    two_comma_worker();
+                    buffer = two_comma_worker(&i, buffer, parsed_by_semicolon[counter],vars);
                 else if (parsed_by_semicolon[counter][i] == '$')
                     buffer = variable_handler(parsed_by_semicolon[counter], buffer, &i, vars);
                 i++;

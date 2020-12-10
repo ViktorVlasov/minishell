@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/10 22:13:13 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/11 00:06:47 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **envp)
 {
     //char **args_for_commands;
     //OS_ACTIVITY_DT_MODE=enable
-    char    *line = "echo ;echo '123'$OS_ACTIVITY_DT_MODE$home$OS_ACTIVITY_DT_MODE 123";
+    char    *line = "echo ; echo \"$OS_ACTIVITY_DT_MODE$home'123'$OS_ACTIVITY_DT_MODE\" 123";
     //echo ; ech'ab    co'   23
     // char    *line = "echo ; ech'ab    co'   23";
     // char    *line;
