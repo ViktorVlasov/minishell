@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:07:25 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/10 15:10:05 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/11 00:08:32 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,18 @@
 #include <errno.h>
 #include <stdio.h>
 
-int	main(int argc, char *argv[], char *envp[])
+void test_free(char *test_fr)
 {
-	int i;
+	free(test_fr);
+}
 
-	i = 0;
-	while (i != 10)
-	{
-		if (i == 7)
-		{
-			i += 2;
-			continue;
-		}
-		i++;
-	}
-	return (0);
+int	main(int argc, char **argv, char **envp)
+{
+	t_data data;
+
+	data.envp = ft_strdup_2arr(envp);
+	data.args = argv;
+	
+	ft_export(&data);
+	ft_free_array(&data.envp);
 }

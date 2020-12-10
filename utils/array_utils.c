@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:32:33 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/10 16:00:47 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/11 00:01:34 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,21 @@ char *get_value_from_var(char **envp, char *name_var)
         i++;
     }
     return (NULL);
+}
+
+void	ft_free_array(char ***ar)
+{
+	char	**array;
+	int		i;
+
+	array = *ar;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+	array = NULL;
 }

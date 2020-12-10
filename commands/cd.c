@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/10 16:04:09 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/10 16:17:21 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int minus_handler(t_data *data, char *current_pwd)
     if (!value_of_old_pwd)
     {
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
-		return (1); //return -1
+		return (1);
 	}
     if (ft_strlen(value_of_old_pwd) == 0)
     {

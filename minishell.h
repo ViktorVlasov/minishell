@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/10 16:04:47 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/11 00:01:11 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ char        **delete_elem_in_arrayStr(char **src, char *elem, int boolFindPart);
 char        *find_elem_in_arrayStr(char **src, char *elem, int boolFindPart);
 char        *get_value_from_var(char **envp, char *name_var);
 char        **ft_strdup_2arr(char **arr);
+void	    ft_free_array(char ***ar);
+
+
 /* 
 * Commands
 */

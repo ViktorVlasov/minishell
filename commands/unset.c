@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 22:12:00 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/10 15:52:15 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/10 23:48:39 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int ft_unset(t_data *data)
         {
             ft_putstr_fd("minishell: unset: `", 1);
             ft_putstr_fd(data->args[i], 1);
-            ft_putstr_fd("': not a valid identifier", 1);
+            ft_putstr_fd("': not a valid identifier\n", 1);
             return (1);    
         }
         if (find_elem_in_arrayStr(data->envp, data->args[i], 0))
