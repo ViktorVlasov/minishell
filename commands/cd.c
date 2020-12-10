@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/07 20:26:23 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/10 16:04:09 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void change_oldpwd(t_data *data, char *old_pwd)
     char *tmp;
      
     if (find_elem_in_arrayStr(data->envp, "OLDPWD=", 1))
-        data->envp = delete_elem_in_arrayStr(data->envp, "OLDPWD=");
+        data->envp = delete_elem_in_arrayStr(data->envp, "OLDPWD=", 1);
     tmp = old_pwd;
     old_pwd = ft_strjoin("OLDPWD=", old_pwd);
     data->envp = add_elem_in_arrayStr(data->envp, old_pwd);
@@ -32,7 +32,7 @@ void change_pwd(t_data *data)
 
     pwd = getcwd(NULL, 0);
     if (find_elem_in_arrayStr(data->envp, "PWD=", 1))
-        data->envp = delete_elem_in_arrayStr(data->envp, "PWD=");
+        data->envp = delete_elem_in_arrayStr(data->envp, "PWD=", 1);
     tmp = pwd;
     pwd = ft_strjoin("PWD=", pwd);
     data->envp = add_elem_in_arrayStr(data->envp, pwd);

@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/07 23:46:45 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/10 16:04:47 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char        **ft_strdup_2arr(char **arr);
 void        ft_echo(char **args);
 void        ft_pwd();
 void        ft_env(char **envp);
-int         ft_export(char **envp);
+int         ft_export(t_data *data);
 int         ft_cd(t_data *data);
 int         ft_exit(t_data *data);
 

@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 21:36:50 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/07 21:36:08 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/10 16:04:28 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int ft_export(t_data *data)//t_data *data)
     }
     else 
     {
-        ft_export_with_args()
+        ft_export_with_args();
     }
         
     return (0);
