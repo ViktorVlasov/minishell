@@ -6,20 +6,20 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:19:11 by efumiko           #+#    #+#             */
-/*   Updated: 2020/11/28 21:30:27 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/12 15:54:18 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_env(char **envp)
+void ft_env(t_data *data)
 {
     int i;
 
-    i = 0;
-    while (envp[i])
+    i = 0; // нужно дописать, выводит только переменные с =
+    while (data->envp[i])
     {
-        ft_putstr_fd(envp[i], 1);
+        ft_putstr_fd(data->envp[i], 1);
         ft_putchar_fd('\n', 0);
         i++;
     }

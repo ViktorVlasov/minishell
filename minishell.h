@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/11 00:14:07 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/12 17:09:47 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 # define BUFFER_SIZE 5
 # include "libft/libft.h"
-# include "errno.h" 
+# include <errno.h> 
+# include <string.h>
 
 typedef struct      s_data
 {
@@ -39,9 +40,9 @@ int         in_screening(char *line, int symb_id);
 * Commands
 */
 
-void        ft_echo(char **args);
+void        ft_echo(t_data *data);
 void        ft_pwd();
-void        ft_env(char **envp);
+void        ft_env(t_data *data);
 int         ft_export(t_data *data);
 int         ft_cd(t_data *data);
 int         ft_exit(t_data *data);
