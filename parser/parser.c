@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/11 00:08:36 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/12 20:00:45 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,6 @@ char        *add_char(char *str, char symb)
     new_str = ft_realloc(str, length, length + 1);
     new_str[length] = symb;
     return (new_str);
-}
-char        *one_comma_worker(int *i, char *buffer, char *str)
-{
-    int     counter;
-    int     buf_size;
-    int     iterator;
-    int     i_pos;
-    char    *res;
-    
-    *i = *i + 1;
-    i_pos = *i;
-    iterator = 0;
-    counter = 0;
-    buf_size = ft_strlen(buffer);
-    while (str[*i] != '\'')
-    {
-        counter++;
-        *i = *i + 1;
-    }
-    res = ft_realloc(buffer, buf_size, buf_size + counter);
-    while (counter > 0)
-    {
-        res[buf_size + iterator] = str[i_pos + iterator];
-        iterator++;
-        counter--;
-    }
-    return (res);
 }
 
 char        *variable_handler(char *str, char *dst, int *iterator, t_data vars)
@@ -66,6 +39,8 @@ char        *variable_handler(char *str, char *dst, int *iterator, t_data vars)
         *iterator += 1;
     }
     *iterator -= 1; //потому что в основном цикле дальше идет i++
+    if (var && var[0] == '?')
+        dst = ft_itoa(vars.err_status);
     var = add_char(var, '=');
     rez = get_value_from_var(vars.envp, var);
     if (var)
@@ -84,20 +59,23 @@ char        *variable_handler(char *str, char *dst, int *iterator, t_data vars)
     return(dst);
 }
 
+char        *one_comma_worker(int *i, char *buffer, char *str)
+{   
+    *i = *i + 1;
+    while (str[*i] != '\'' && str[*i] != '\0' && in_screening(str, *i) == 0)
+    {
+        if(str[*i] == '\\')
+	    	*i += 1;
+        buffer = add_char(buffer, str[*i]);
+        *i += 1;
+    }
+    return (buffer);
+}
+
 char        *two_comma_worker(int *i, char *buffer, char *str, t_data vars)
 {
-    int     counter;
-    int     buf_size;
-    int     iterator;
-    int     i_pos;
-    char    *res;
-    
     *i = *i + 1;
-    i_pos = *i;
-    iterator = 0;
-    counter = 0;
-    buf_size = ft_strlen(buffer);
-    while (str[*i] != '\"' && in_screening(str, *i) == 0)
+    while (str[*i] != '\"' && in_screening(str, *i) == 0 && str[*i] != '\0')
     {
         if (str[*i] != '$')
 		{
@@ -112,6 +90,27 @@ char        *two_comma_worker(int *i, char *buffer, char *str, t_data vars)
     return (buffer);
 }
 
+int        error_check(char *line)
+{
+    int     i;
+
+    i = 0;
+    while (line[i] == ' ' && line[i] != '\0')
+        i++;
+    if (line[i] == ';' && line[i + 1] == '\0')
+        ft_putstr_fd("syntax error near unexpected token `;'", 1);
+    else if (line[i] == ';' && line[i + 1] == ';')
+        ft_putstr_fd("syntax error near unexpected token `;;'", 1);
+    else if (line[i] == '>' && line[i + 1] == '\0')
+        ft_putstr_fd("syntax error near unexpected token `newline'", 1);
+    else if (line[i] == '>' && line[i + 1] == '>')
+        ft_putstr_fd(";;", 1);
+        
+        
+         //; > >> < << |
+    return (0);
+}
+
 char        **parser(char *line, t_data vars)
 {
     char    **parsed_by_semicolon;
@@ -123,6 +122,7 @@ char        **parser(char *line, t_data vars)
     int     ready_array_size;
     char    *buffer;
     char    *tmp;
+    int     error;
 
     i = 0;
     counter = 0;
