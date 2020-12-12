@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 22:11:55 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 16:56:58 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/12 23:00:58 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			ft_exit(t_data *data)
 {
 	int code;
 
-	code = 0; // code = $?
+	code = data->err_status; // code = $?
 	ft_putstr_fd("exit\n", 1);
 	if (data->args[1])
 	{
