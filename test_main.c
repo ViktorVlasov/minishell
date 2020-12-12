@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 15:07:25 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 19:40:38 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/12 22:55:28 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,45 @@ int	main(int argc, char **argv, char **envp)
 
 	data.envp = ft_strdup_2arr(envp);
 	data.args = argv;
+
+	ft_cd(&data);
+	ft_pwd();
+
+	// char **test;
+	// if (argv[1])
+	// {
+	// 	test = malloc(sizeof(char*) * 4);
+	// 	test[0] = ft_strdup("export");	
+	// 	test[1] = ft_strdup("COLORTERM=123");
+	// 	test[2] = NULL;
+	// 	test[3] = NULL;
+ 	// 	data.args = test;
+	// 	ft_export(&data);
+		
+	// 	test[1] = ft_strdup("HOME=5555");
+	// 	data.args = test;
+	// 	ft_export(&data);
+		
+	// 	test[1] = NULL;
+	// 	data.args = test;
+	// 	ft_export(&data);
+	// }
 	
+	// printf("\n\n");
+	// test[0] = ft_strdup("unset");
+	// test[1] = ft_strdup("Apple_PubSub_Socket_Render");
+	// test[2] = ft_strdup("COLORTERM");
+	// data.args = test;
+	// ft_unset(&data);
 	
-	ft_export(&data);
+	// test[0] = ft_strdup("export");
+	// test[1] = NULL;
+	// test[2] = NULL;
+	// data.args = test;
+	// ft_export(&data);
+
+	
+	// ft_export(&data);
 
 	// int k = 0;
 	// printf("======TEST_add_VARIABLE======\n");
@@ -51,20 +87,11 @@ int	main(int argc, char **argv, char **envp)
     // }
 	// printf("======END_TEST2======\n");
 	
-	char **test;
-	if (argv[1])
-	{
-		test = malloc(sizeof(char*) * 3);
-		test[0] = ft_strdup("export");	
-		test[1] = ft_strdup("ABC=20");
-		test[2] = NULL;
- 		data.args = test;
-		ft_export(&data);
-	}
-	ft_env(&data);
+	
+	// ft_env(&data);
 	//ft_echo(&data);
 	//ft_exit(&data);
 	ft_free_array(&data.envp);
-	if (test)
-		free(test);
+	// if (test)
+	// 	free(test);
 }

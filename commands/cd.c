@@ -6,16 +6,16 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 20:02:52 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/12 22:57:09 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void change_oldpwd(t_data *data, char *old_pwd)
-{   
+void		change_oldpwd(t_data *data, char *old_pwd)
+{
 	char *tmp;
-	 
+
 	if (find_elem_in_arrayStr(data->envp, "OLDPWD=", 1))
 		data->envp = delete_elem_in_arrayStr(data->envp, "OLDPWD=", 1);
 	tmp = old_pwd;
@@ -25,7 +25,7 @@ void change_oldpwd(t_data *data, char *old_pwd)
 	free(old_pwd);
 }
 
-void change_pwd(t_data *data)
+void		change_pwd(t_data *data)
 {
 	char *pwd;
 	char *tmp;
@@ -40,17 +40,7 @@ void change_pwd(t_data *data)
 	free(tmp);
 }
 
-static int		path_error(char *path)
-{
-	ft_putstr_fd("cd: ", 2);
-	ft_putstr_fd(path, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(errno), 2);
-	ft_putchar_fd('\n', 2);
-	return (errno);
-}
-
-int without_arguments_handler(t_data *data, char *old_pwd)
+int			without_arguments_handler(t_data *data, char *old_pwd)
 {
 	char *home_path;
 
@@ -65,14 +55,14 @@ int without_arguments_handler(t_data *data, char *old_pwd)
 	else if (chdir(home_path) == 0)
 	{
 		change_oldpwd(data, old_pwd);
-		change_pwd(data);  
+		change_pwd(data);
 	}
 	else
 		path_error(home_path);
 	return (0);
 }
 
-int minus_handler(t_data *data, char *current_pwd)
+int			minus_handler(t_data *data, char *current_pwd)
 {
 	char *value_of_old_pwd;
 
@@ -99,7 +89,7 @@ int minus_handler(t_data *data, char *current_pwd)
 	return (0);
 }
 
-int ft_cd(t_data *data)
+int			ft_cd(t_data *data)
 {
 	char *current_pwd;
 	char *home;
@@ -107,10 +97,10 @@ int ft_cd(t_data *data)
 	current_pwd = getcwd(NULL, 0);
 	if (!data->args[1])
 	{
-		without_arguments_handler(data, current_pwd);
+		return (without_arguments_handler(data, current_pwd));
 	}
-	if (ft_strcmp(data->args[1], "-\0"))
-		return minus_handler(data, current_pwd);
+	else if (ft_strcmp(data->args[1], "-\0") == 0)
+		return (minus_handler(data, current_pwd));
 	else
 	{
 		if (chdir(data->args[1]) == 0)
