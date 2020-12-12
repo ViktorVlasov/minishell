@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/12 17:09:47 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/12 20:09:49 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct      s_data
 {
     char            **envp;
     char            **args;
+    int             err_status;
 }                   t_data;
 
 char        **parser(char *line, t_data vars);
