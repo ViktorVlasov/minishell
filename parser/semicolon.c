@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/07 22:53:08 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/12 20:24:56 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int         in_commas(char *line, int symb_id, char comma_type)
         {
             if (symb_id > check1 && symb_id < check2)
                 return (1);
+            check1 = 0;
+            check2 = 0;
         }
         i++;
     }

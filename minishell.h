@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/12 19:55:40 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/12 23:05:15 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct      s_data
     int             err_status;
 }                   t_data;
 
-char        **parser(char *line, t_data vars);
+char        **parser(char *line, t_data *vars);
 int			get_next_line(int fd, char **line);
 char        **semicolon(char *line);
 char        **ft_realloc_2arr(char **arr, size_t prev_size ,size_t size);
@@ -36,6 +36,10 @@ char        *get_value_from_var(char **envp, char *name_var);
 char        **ft_strdup_2arr(char **arr);
 void	    ft_free_array(char ***ar);
 int         in_screening(char *line, int symb_id);
+char        *add_char(char *str, char symb);
+char        *variable_handler(char *str, char *dst, int *iterator, t_data *vars);
+char        *one_comma_worker(int *i, char *buffer, char *str);
+char        *two_comma_worker(int *i, char *buffer, char *str, t_data *vars);
 /* 
 * Commands
 */
