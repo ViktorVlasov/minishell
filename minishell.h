@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/14 16:39:52 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/14 21:38:42 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct      s_data
 	char            **envp;
 	char            **args;
 	int             err_status;
+	t_data			*pipe;
 }                   t_data;
 
 typedef struct      semicolon_data
@@ -33,7 +34,7 @@ typedef struct      semicolon_data
 	char    		*rem;
 }                   sem_data;
 
-char        **parser(char *line, t_data *vars);
+void        start(char *line, t_data *vars);
 char        *add_char(char *str, char symb);
 char        *variable_handler(char *str, char *dst, int *iterator, t_data *vars);
 char        *one_comma_worker(int *i, char *buffer, char *str);

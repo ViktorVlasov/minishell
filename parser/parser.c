@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/14 17:09:11 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/14 22:37:43 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,14 @@ void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
     }
 }
 
-char        **parser(char *line, t_data *vars)
+void        cmd_exec(t_data *vars)
+{
+    // if нужно проверить, есть ли среди аргментов редирект,
+    //else //выполняем эти аргументы
+    
+}
+
+void        start(char *line, t_data *vars)
 {
     char    **parsed_by_semicolon;
     int     commands_amount;
@@ -109,16 +116,51 @@ char        **parser(char *line, t_data *vars)
     int     ready_array_size;
 
     counter = 0;
-    ready_array_size = 0;
+    ready_array_size = 0; //когда сделаем очищение структуры перенсти эту переменную в функцию parse_command, чтобы она каждый раз обнулялась и заполняла струтукру с нуля
     parsed_by_semicolon = semicolon(line);
     commands_amount = get_amount_line(parsed_by_semicolon);
     take_out_spaces(parsed_by_semicolon, commands_amount);
     while (counter < commands_amount)
     {
         parse_command(parsed_by_semicolon[counter],vars, &ready_array_size);
-        //тут вызов функции обработчика
+        // cmd_exec(vars);
         counter++;
     }
     ft_free_array(&parsed_by_semicolon);
-    return (NULL);
 }
+
+
+
+
+// int i = 0;
+// int count_redir = 0;
+// while (args[i])
+// {
+//     if (args[i] == ">>" && args[i+1])
+     
+       
+//         count_redir++;
+// }
+
+// i = 0;
+// while (args[i])
+// {
+//     if (args[i] == ">>" && args[i + 1])
+//         fd = open() // создаем файл
+//         count_redir--;
+//         if (count_redir == 1) // 1 or 0???
+//             dup2() // перенаправляем стандартный вывод в файл
+//     i++;
+// }
+
+// char **names_files;
+
+// while (args[i])
+// {
+//     if (args[i] == ">>" && args[i+1])
+//     {
+//         names_files = ft_realloc_2arr(names_files, get_amount_line(names_files), get_amount_line(names_files) + 1);
+//         names_files = add_elem_in_arrayStr(names_files, args[i+1]);
+//     }
+// }
+
