@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 22:57:09 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/14 16:18:33 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int			minus_handler(t_data *data, char *current_pwd)
 int			ft_cd(t_data *data)
 {
 	char *current_pwd;
-	char *home;
 
 	current_pwd = getcwd(NULL, 0);
 	if (!data->args[1])
