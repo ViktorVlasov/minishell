@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/12 23:11:46 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/14 16:39:52 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ typedef struct      s_data
 	int             err_status;
 }                   t_data;
 
+typedef struct      semicolon_data
+{
+	int    			add_if_semicolon_met;
+    int     		previous_semicolon_position;
+	char    		**parsed_by_semicolon;
+	char 			*line;
+	char    		*rem;
+}                   sem_data;
+
 char        **parser(char *line, t_data *vars);
 char        *add_char(char *str, char symb);
 char        *variable_handler(char *str, char *dst, int *iterator, t_data *vars);
@@ -31,7 +40,7 @@ char        *one_comma_worker(int *i, char *buffer, char *str);
 char        *two_comma_worker(int *i, char *buffer, char *str, t_data *vars);
 int			get_next_line(int fd, char **line);
 char		**semicolon(char *line);
-char		**ft_realloc_2arr(char **arr, size_t prev_size ,size_t size);
+char		**ft_realloc_2arr(char **arr, int prev_size, int size);
 int			get_amount_line(char **lines);
 void		*ft_realloc(void *ptr, int size, int newsize);
 char		**add_elem_in_arrayStr(char **src, char *elem);

@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:12:51 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/10 22:15:17 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/14 16:17:22 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		get_amount_line(char **lines)
 	return (i);
 }
 
-char        **ft_realloc_2arr(char **arr, size_t prev_size ,size_t size)
+char        **ft_realloc_2arr(char **arr, int prev_size ,int size)
 {
     char    **res;
     int     i;

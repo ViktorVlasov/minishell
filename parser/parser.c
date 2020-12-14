@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/12 23:04:05 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/14 17:09:11 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,24 @@ char        *pars_one_arg(int *i, char *line, t_data *vars)
     return (buffer);
 }
 
-void        parse_command(char *command, t_data *vars)
+void        parse_command(char *command, t_data *vars, int *ready_array_size)
 {
     int     i;
+    int     command_length;
     char    *buffer;
-    int     ready_array_size;
 
     i = 0;
-    ready_array_size = 0;
-    while (i < ft_strlen(command))
+    command_length = ft_strlen(command);
+    while (i < command_length)
     {
-        vars->args = ft_realloc_2arr(vars->args, ready_array_size,ready_array_size + 1);
+        vars->args = ft_realloc_2arr(vars->args,\
+                *ready_array_size, *ready_array_size + 1);
         buffer = pars_one_arg(&i, command, vars);
         if (buffer)
         {
             vars->args = add_elem_in_arrayStr(vars->args, buffer);
             free(buffer);
-            ready_array_size++;
+            *ready_array_size += 1;
         }
         buffer = NULL;
     }
@@ -105,16 +106,19 @@ char        **parser(char *line, t_data *vars)
     char    **parsed_by_semicolon;
     int     commands_amount;
     int     counter;
+    int     ready_array_size;
 
     counter = 0;
+    ready_array_size = 0;
     parsed_by_semicolon = semicolon(line);
     commands_amount = get_amount_line(parsed_by_semicolon);
     take_out_spaces(parsed_by_semicolon, commands_amount);
     while (counter < commands_amount)
     {
-        parse_command(parsed_by_semicolon[counter], vars);
+        parse_command(parsed_by_semicolon[counter],vars, &ready_array_size);
         //тут вызов функции обработчика
         counter++;
     }
+    ft_free_array(&parsed_by_semicolon);
     return (NULL);
 }

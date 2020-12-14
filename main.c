@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/12 23:07:19 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/14 17:12:14 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int main(int argc, char **argv, char **envp)
     //OS_ACTIVITY_DT_MODE=enable
     // char    *line = "echo '123\'";
     //echo ; ech'ab    co'   23
-    char    *line = "   echo \"\\hello \\$PWD\"";
+    argc = 0;
+    argv = NULL;
+    char    *line = "   echo \"\\hello \\$PWD $PWD\" ; hi how are you; $HOME";
     // char    *line;
     t_data  vars;
     vars.err_status = 0;
@@ -37,6 +39,7 @@ int main(int argc, char **argv, char **envp)
     
     // get_next_line(0, &line);
     parser(line, &vars);
+    // free(line);
     
     // while (get_next_line(0, &line) > 0)
     // {
@@ -50,4 +53,6 @@ int main(int argc, char **argv, char **envp)
         printf("%s\n", vars.args[i]);
         i++;
     }
+    ft_free_array(&vars.args);
+    ft_free_array(&vars.envp);
 }

@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:03:43 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/12 23:04:16 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/14 15:49:25 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,36 @@ char        *add_char(char *str, char symb)
     return (new_str);
 }
 
-char        *variable_handler(char *str, char *dst, int *iterator, t_data *vars)
+char        *handle_var_name(int *iterator, char *str)
 {
-    char    *spec_symbols = "=$'\" ";
-    char    *rez;
-    char    *tmp;
+    char    *spec_symbols;
     char    *var;
-    
+
     var = NULL;
+    spec_symbols = "=$'\" ";
     *iterator += 1;
     while (ft_strchr(spec_symbols, str[*iterator]) == NULL && str[*iterator] != '\0')
     {
         var = add_char(var, str[*iterator]);
         *iterator += 1;
     }
-    *iterator -= 1; //потому что в основном цикле дальше идет i++
+    var = add_char(var, '=');
+    *iterator -= 1;
+    return (var);
+}
+
+char        *variable_handler(char *str, char *dst, int *iterator, t_data *vars)
+{
+    char    *rez;
+    char    *tmp;
+    char    *var;
+
+    var = handle_var_name(iterator, str);
     if (var && var[0] == '?')
         dst = ft_itoa(vars->err_status);
-    var = add_char(var, '=');
     rez = get_value_from_var(vars->envp, var);
     if (var)
         free(var);
-    var = NULL;
     if (rez == NULL)
         return (dst);
     if (dst != NULL)

@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/12 20:24:56 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/14 17:18:25 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ int         in_commas(char *line, int symb_id, char comma_type)
     int     check1;
     int     check2;
     int     i;
+    int     line_len;
 
     i = 0;
     check1 = 0;
     check2 = 0;
-    while (i < ft_strlen(line))
+    line_len = ft_strlen(line);
+    while (i < line_len)
     {
         if (line[i] == comma_type && check1 != 0)
             check2 = i;
@@ -46,42 +48,59 @@ int         in_screening(char *line, int symb_id)
     return (0);
 }
 
-char        **semicolon(char *line)
+void         semicolon_realloc(sem_data *for_semicolon, int counter, int i)
 {
-    int     i;
-    int     counter;
-    int     add_if_semicolon_met;
-    int     previous_semicolon_position;
-    char    **parsed_by_semicolon;
-    char    *rem;
+    for_semicolon->parsed_by_semicolon = ft_realloc_2arr(\
+                for_semicolon->parsed_by_semicolon, counter ,counter + 1);
+    for_semicolon->parsed_by_semicolon[counter] =\
+            (char *)malloc(i - for_semicolon->previous_semicolon_position);
+    ft_strlcpy(for_semicolon->parsed_by_semicolon[counter],\
+            for_semicolon->line + for_semicolon->previous_semicolon_position +\
+                for_semicolon->add_if_semicolon_met, i -\
+                    for_semicolon->previous_semicolon_position + 1 -\
+                        for_semicolon->add_if_semicolon_met);
+}
 
-    add_if_semicolon_met = 0;
-    previous_semicolon_position = 0;
-    counter = 0;
-    rem = NULL;
-    i = 0;
-    while (i < ft_strlen(line))
-    {
-        if (line[i] == ';')
+void        when_sem_met(sem_data *for_sem, int i, int *counter)
+{
+    if (for_sem->line[i] == ';')
         {
-            if (in_commas(line, i, '\'') == 0 &&
-                     in_commas(line, i, '\"') == 0 && in_screening(line, i) == 0)
+            if (in_commas(for_sem->line, i, '\'') == 0 &&\
+                     in_commas(for_sem->line, i, '\"') == 0 &&\
+                        in_screening(for_sem->line, i) == 0)
             {
-                parsed_by_semicolon = ft_realloc_2arr(parsed_by_semicolon, counter, counter + 1);
-                parsed_by_semicolon[counter] = (char *)malloc(i - previous_semicolon_position);
-                ft_strlcpy(parsed_by_semicolon[counter], line + previous_semicolon_position + add_if_semicolon_met, i - previous_semicolon_position + 1 - add_if_semicolon_met);
-                rem = ft_realloc(rem, ft_strlen(rem) ,ft_strlen(line) - i + 1);
-                ft_strlcpy(rem, line + i + 1, ft_strlen(line + i));
-                
-                previous_semicolon_position = i;
-                counter++;
-                add_if_semicolon_met = 1;
+                semicolon_realloc(for_sem, *counter, i);
+                for_sem->rem = ft_realloc(for_sem->rem,\
+                        ft_strlen(for_sem->rem), ft_strlen(for_sem->line) - i + 1);
+                ft_strlcpy(for_sem->rem, for_sem->line + i + 1, ft_strlen(for_sem->line + i));
+                for_sem->previous_semicolon_position = i;
+                *counter += 1;
+                for_sem->add_if_semicolon_met = 1;
             } 
         }
+}
+
+char        **semicolon(char *line)
+{
+    sem_data    for_semicolon;
+    int     i;
+    int     counter;
+    int     line_len;
+
+    for_semicolon.add_if_semicolon_met = 0;
+    for_semicolon.previous_semicolon_position = 0;
+    for_semicolon.rem = NULL;
+    for_semicolon.line = line;
+    counter = 0;
+    i = 0;
+    line_len = ft_strlen(line);
+    while (i < line_len)
+    {
+        when_sem_met(&for_semicolon, i, &counter);
         i++;
     }
-    parsed_by_semicolon = ft_realloc_2arr(parsed_by_semicolon, counter ,counter + 1);
-    parsed_by_semicolon[counter] = (char *)malloc(i - previous_semicolon_position);
-    ft_strlcpy(parsed_by_semicolon[counter], line + previous_semicolon_position + add_if_semicolon_met, i - previous_semicolon_position + 1 - add_if_semicolon_met);
-    return (parsed_by_semicolon);
+    semicolon_realloc(&for_semicolon, counter, i);
+    if (for_semicolon.rem)
+        free(for_semicolon.rem);
+    return (for_semicolon.parsed_by_semicolon);
 }
