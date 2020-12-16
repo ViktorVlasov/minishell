@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/16 18:39:43 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/17 00:04:56 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ t_data	*ft_init(char **content)
 	return (new);
 }
 
+void init_structure(t_data *vars)
+{
+    vars->fd0 = dup(0);
+    vars->fd1 = dup(1);    
+}
+
+
 int main(int argc, char **argv, char **envp)
 {
     //char **args_for_commands;
@@ -40,7 +47,9 @@ int main(int argc, char **argv, char **envp)
     // char    *line;
     t_data  *vars;
     vars = ft_init(envp);
-    
+    init_structure(vars);
+
+
     int i = 0;
     int check = get_amount_line(envp);
     // while (i < check)
@@ -62,7 +71,7 @@ int main(int argc, char **argv, char **envp)
     check = get_amount_line(vars->args);
     while (i < check)
     {
-        printf("%s\n", vars->args[i]);
+        // printf("%s\n", vars->args[i]);
         i++;
     }
     ft_free_array(&vars->args);

@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/16 18:39:55 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/16 23:31:13 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct      	s_data
 	char            	**args;
 	int             	err_status;
 	struct s_data		*pipe;
+	int					fd0;
+	int					fd1;
 }                   	t_data;
 
 typedef struct      semicolon_data

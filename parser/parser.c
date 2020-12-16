@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/16 18:44:42 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/17 00:19:44 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,39 @@ void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
     }
 }
 
+int global_i = 0;
+
+void        do_cmd(char **args)
+{
+    (void)args;
+    // Обработка редиректов (возможно здесь)
+    printf("%d\n", global_i);
+    global_i++;
+}
+
 void        cmd_exec(t_data *vars)
 {
     // if нужно проверить, есть ли среди аргментов редирект,
     //else //выполняем эти аргументы
+    int fd[2];
+    t_data *current_pipe;
+    current_pipe = vars->pipe;
     
+    while (current_pipe->pipe)
+    {
+        pipe(fd);
+        dup2(fd[1], 1);
+        do_cmd(current_pipe->args);
+
+        dup2(fd[0], 0);
+	    close(fd[1]);
+	    close(fd[0]);
+        close(1); // мб можно убрать
+        dup2(vars->fd1, 1);
+        current_pipe = current_pipe->pipe;
+    }
+    do_cmd(current_pipe->args); 
+    dup2(vars->fd0, 0);    
 }
 
 
@@ -136,22 +164,52 @@ int        pipe_handler(char *command, t_data *vars)
     t_data  *tmp;
     int     ready_array_size;     
     
-    ready_array_size = 0;
+    ready_array_size = 0; //временно
     pipe_counter = 1;
     parsed_by_pipe = semicolon(command, '|');
     pipe_commands_ammount = get_amount_line(parsed_by_pipe);
     take_out_spaces(parsed_by_pipe, pipe_commands_ammount);
-    if (pipe_commands_ammount > 1)
-        vars->pipe = ft_init(vars->envp);
-    while (pipe_counter < pipe_commands_ammount)
+    // if (pipe_commands_ammount > 1)
+    //     vars->pipe = ft_init(vars->envp);
+    while (pipe_counter < pipe_commands_ammount + 1 && pipe_commands_ammount != 1)
     {
+        ready_array_size = 0; //временно
         tmp = ft_init(vars->envp);
         parse_command(parsed_by_pipe[pipe_counter - 1], tmp, &ready_array_size);
         pipe_counter++;
-        ft_pipeadd_back(&vars->pipe, tmp);
+        ft_pipeadd_back(&vars, tmp);
     }
     ft_free_array(&parsed_by_pipe); 
     return (pipe_counter == 1 ? 0 : 1);      
+}
+
+
+void	free_listof_pipes(t_data **lst)
+{
+	t_data	*tmp;
+
+	if (!lst)
+		return ;
+	while (*lst)
+	{
+		ft_free_array(&((*lst)->args));
+		ft_free_array(&((*lst)->envp));
+        tmp = *lst;
+		*lst = tmp->pipe;
+		free(tmp);
+	}
+	*lst = NULL;
+}
+
+
+void free_structure(t_data *vars)
+{
+    if (vars)
+    {
+        if (vars->args)
+            ft_free_array(&vars->args);
+        
+    }
 }
 
 void        start(char *line, t_data *vars)
@@ -170,7 +228,8 @@ void        start(char *line, t_data *vars)
     {
         if (!pipe_handler(parsed_by_semicolon[counter], vars))
             parse_command(parsed_by_semicolon[counter], vars, &ready_array_size);
-        // cmd_exec(vars);
+        cmd_exec(vars);
+        free_structure(vars);
         counter++;
     }
     ft_free_array(&parsed_by_semicolon);
@@ -184,8 +243,6 @@ void        start(char *line, t_data *vars)
 // while (args[i])
 // {
 //     if (args[i] == ">>" && args[i+1])
-     
-       
 //         count_redir++;
 // }
 
