@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   semicolon.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/14 17:18:25 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/16 15:11:58 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void         semicolon_realloc(sem_data *for_semicolon, int counter, int i)
                         for_semicolon->add_if_semicolon_met);
 }
 
-void        when_sem_met(sem_data *for_sem, int i, int *counter)
+void        when_sem_met(sem_data *for_sem, int i, int *counter, char parse_symb)
 {
-    if (for_sem->line[i] == ';')
+    if (for_sem->line[i] == parse_symb)
         {
             if (in_commas(for_sem->line, i, '\'') == 0 &&\
                      in_commas(for_sem->line, i, '\"') == 0 &&\
@@ -80,7 +80,7 @@ void        when_sem_met(sem_data *for_sem, int i, int *counter)
         }
 }
 
-char        **semicolon(char *line)
+char        **semicolon(char *line, char parse_symb)
 {
     sem_data    for_semicolon;
     int     i;
@@ -96,7 +96,7 @@ char        **semicolon(char *line)
     line_len = ft_strlen(line);
     while (i < line_len)
     {
-        when_sem_met(&for_semicolon, i, &counter);
+        when_sem_met(&for_semicolon, i, &counter, parse_symb);
         i++;
     }
     semicolon_realloc(&for_semicolon, counter, i);

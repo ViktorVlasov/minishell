@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/14 21:38:42 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/16 18:39:55 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,20 @@
 # include <errno.h> 
 # include <string.h>
 
-typedef struct      s_data
+// typedef struct      	pipe_data
+// {
+// 	char            	**envp;
+// 	char				**args;
+// 	struct pipe_data	*pipe;
+// }                   	pipe_data;
+
+typedef struct      	s_data
 {
-	char            **envp;
-	char            **args;
-	int             err_status;
-	t_data			*pipe;
-}                   t_data;
+	char            	**envp;
+	char            	**args;
+	int             	err_status;
+	struct s_data		*pipe;
+}                   	t_data;
 
 typedef struct      semicolon_data
 {
@@ -40,7 +47,7 @@ char        *variable_handler(char *str, char *dst, int *iterator, t_data *vars)
 char        *one_comma_worker(int *i, char *buffer, char *str);
 char        *two_comma_worker(int *i, char *buffer, char *str, t_data *vars);
 int			get_next_line(int fd, char **line);
-char		**semicolon(char *line);
+char		**semicolon(char *line, char parse_symb);
 char		**ft_realloc_2arr(char **arr, int prev_size, int size);
 int			get_amount_line(char **lines);
 void		*ft_realloc(void *ptr, int size, int newsize);
@@ -54,6 +61,7 @@ int			in_screening(char *line, int symb_id);
 void		replace_elem_in_envp(char **src, char *name_variable, char *replace);
 char		*get_name_var_from_arg(char *argument);
 void		insertion_sort(char **mass, int n);
+t_data		*ft_init(char **content);
 
 /*
 * Error_messages

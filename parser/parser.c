@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/14 22:37:43 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/16 18:44:42 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void        parse_command(char *command, t_data *vars, int *ready_array_size)
     }
 }
 
+
 void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
 {
     char    *tmp;
@@ -108,6 +109,51 @@ void        cmd_exec(t_data *vars)
     
 }
 
+
+void	ft_pipeadd_back(t_data **lst, t_data *new)
+{
+	t_data	*lst_back;
+
+	if (!lst || !new)
+		return ;
+	if (*lst)
+	{
+		lst_back = *lst;
+		while (lst_back->pipe)
+			lst_back = lst_back->pipe;
+		lst_back->pipe = new;
+	}
+	else
+		*lst = new;
+}
+
+
+int        pipe_handler(char *command, t_data *vars)
+{
+    char    **parsed_by_pipe;
+    int     pipe_counter;
+    int     pipe_commands_ammount;
+    t_data  *tmp;
+    int     ready_array_size;     
+    
+    ready_array_size = 0;
+    pipe_counter = 1;
+    parsed_by_pipe = semicolon(command, '|');
+    pipe_commands_ammount = get_amount_line(parsed_by_pipe);
+    take_out_spaces(parsed_by_pipe, pipe_commands_ammount);
+    if (pipe_commands_ammount > 1)
+        vars->pipe = ft_init(vars->envp);
+    while (pipe_counter < pipe_commands_ammount)
+    {
+        tmp = ft_init(vars->envp);
+        parse_command(parsed_by_pipe[pipe_counter - 1], tmp, &ready_array_size);
+        pipe_counter++;
+        ft_pipeadd_back(&vars->pipe, tmp);
+    }
+    ft_free_array(&parsed_by_pipe); 
+    return (pipe_counter == 1 ? 0 : 1);      
+}
+
 void        start(char *line, t_data *vars)
 {
     char    **parsed_by_semicolon;
@@ -117,12 +163,13 @@ void        start(char *line, t_data *vars)
 
     counter = 0;
     ready_array_size = 0; //когда сделаем очищение структуры перенсти эту переменную в функцию parse_command, чтобы она каждый раз обнулялась и заполняла струтукру с нуля
-    parsed_by_semicolon = semicolon(line);
+    parsed_by_semicolon = semicolon(line, ';');
     commands_amount = get_amount_line(parsed_by_semicolon);
     take_out_spaces(parsed_by_semicolon, commands_amount);
     while (counter < commands_amount)
     {
-        parse_command(parsed_by_semicolon[counter],vars, &ready_array_size);
+        if (!pipe_handler(parsed_by_semicolon[counter], vars))
+            parse_command(parsed_by_semicolon[counter], vars, &ready_array_size);
         // cmd_exec(vars);
         counter++;
     }

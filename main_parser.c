@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/14 21:14:02 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/16 18:39:43 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
+
+t_data	*ft_init(char **content)
+{
+	t_data *new;
+
+	new = (t_data*)malloc(sizeof(t_data));
+	if (new == NULL)
+		return (NULL);
+	new->envp = ft_strdup_2arr((char **)content);
+	new->pipe = NULL;
+    new->err_status = 0;
+	return (new);
+}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -23,11 +36,10 @@ int main(int argc, char **argv, char **envp)
     //echo ; ech'ab    co'   23
     argc = 0;
     argv = NULL;
-    // char    *line = "   echo \"\\hello \\$PWD $PWD\" ; hi how are you; $HOME";
-    char    *line;
-    t_data  vars;
-    vars.err_status = 0;
-    vars.envp = ft_strdup_2arr(envp);
+    char    *line = "   echo | abc | grep -e \"abc\"; hi how are you; $HOME";
+    // char    *line;
+    t_data  *vars;
+    vars = ft_init(envp);
     
     int i = 0;
     int check = get_amount_line(envp);
@@ -37,9 +49,9 @@ int main(int argc, char **argv, char **envp)
     //     i++;
     // }
     
-    get_next_line(0, &line);
-    start(line, &vars);
-    free(line);
+    // get_next_line(0, &line);
+    start(line, vars);
+    // free(line);
     
     // while (get_next_line(0, &line) > 0)
     // {
@@ -47,12 +59,12 @@ int main(int argc, char **argv, char **envp)
     //     free(line);
     // }
     
-    check = get_amount_line(vars.args);
+    check = get_amount_line(vars->args);
     while (i < check)
     {
-        printf("%s\n", vars.args[i]);
+        printf("%s\n", vars->args[i]);
         i++;
     }
-    ft_free_array(&vars.args);
-    ft_free_array(&vars.envp);
+    ft_free_array(&vars->args);
+    ft_free_array(&vars->envp);
 }

@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 20:24:25 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/14 20:56:57 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/16 15:03:37 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **envp)
     while (1)
     {
         // parse str and fill t_data struct
-        ();
+        
         // print("minishell")
         // function that exec commands
         // free struct
