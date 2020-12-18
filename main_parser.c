@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/17 00:04:56 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/18 19:05:58 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_data	*ft_init(char **content)
 	new = (t_data*)malloc(sizeof(t_data));
 	if (new == NULL)
 		return (NULL);
+    new->args = NULL;
 	new->envp = ft_strdup_2arr((char **)content);
 	new->pipe = NULL;
     new->err_status = 0;
@@ -43,7 +44,7 @@ int main(int argc, char **argv, char **envp)
     //echo ; ech'ab    co'   23
     argc = 0;
     argv = NULL;
-    char    *line = "   echo | abc | grep -e \"abc\"; hi how are you; $HOME";
+    char    *line = "   echo | abc | grep -e \"abc\"; hi how are you; $kldas";
     // char    *line;
     t_data  *vars;
     vars = ft_init(envp);
@@ -74,6 +75,7 @@ int main(int argc, char **argv, char **envp)
         // printf("%s\n", vars->args[i]);
         i++;
     }
-    ft_free_array(&vars->args);
+    // ft_free_array(&vars->args);
     ft_free_array(&vars->envp);
+    free(vars);
 }

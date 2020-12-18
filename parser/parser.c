@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/17 00:19:44 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/18 21:36:51 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,26 @@ char        *pars_one_arg(int *i, char *line, t_data *vars)
     return (buffer);
 }
 
-void        parse_command(char *command, t_data *vars, int *ready_array_size)
+void        parse_command(char *command, t_data *vars)
 {
     int     i;
     int     command_length;
     char    *buffer;
+    int     ready_array_size;
 
     i = 0;
+    ready_array_size = 0;
     command_length = ft_strlen(command);
     while (i < command_length)
     {
         vars->args = ft_realloc_2arr(vars->args,\
-                *ready_array_size, *ready_array_size + 1);
+                ready_array_size, ready_array_size + 1);
         buffer = pars_one_arg(&i, command, vars);
         if (buffer)
         {
             vars->args = add_elem_in_arrayStr(vars->args, buffer);
             free(buffer);
-            *ready_array_size += 1;
+            ready_array_size += 1;
         }
         buffer = NULL;
     }
@@ -102,14 +104,32 @@ void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
     }
 }
 
-int global_i = 0;
-
-void        do_cmd(char **args)
+void        do_cmd(t_data *vars)
 {
-    (void)args;
     // Обработка редиректов (возможно здесь)
-    printf("%d\n", global_i);
-    global_i++;
+    // printf("%s\n", args[0]);
+    if (vars->args && vars->args[0])
+    {
+        // ft_putstr_fd(vars->args[0], 1);
+        if (ft_strcmp(vars->args[0], "pwd") == 0)
+            ft_pwd();
+        else if (ft_strcmp(vars->args[0], "env") == 0)
+            ft_env(vars);
+        else if (ft_strcmp(vars->args[0], "echo") == 0)
+            ft_echo(vars);
+        else if (ft_strcmp(vars->args[0], "export") == 0)
+            ft_export(vars);
+        else if (ft_strcmp(vars->args[0], "unset") == 0)
+            ft_unset(vars);
+        else if (ft_strcmp(vars->args[0], "cd") == 0)
+            ft_cd(vars);
+        else if (ft_strcmp(vars->args[0], "exit") == 0)
+            ft_exit(vars);
+        else if (ft_command(vars) == 1)
+            ft_not_found();
+    }
+	else
+		ft_not_found(cmd, all);
 }
 
 void        cmd_exec(t_data *vars)
@@ -120,21 +140,26 @@ void        cmd_exec(t_data *vars)
     t_data *current_pipe;
     current_pipe = vars->pipe;
     
-    while (current_pipe->pipe)
+    if (vars->pipe)
     {
-        pipe(fd);
-        dup2(fd[1], 1);
-        do_cmd(current_pipe->args);
+        while (current_pipe->pipe)
+        {
+            pipe(fd);
+            dup2(fd[1], 1);
+            do_cmd(current_pipe);
 
-        dup2(fd[0], 0);
-	    close(fd[1]);
-	    close(fd[0]);
-        close(1); // мб можно убрать
-        dup2(vars->fd1, 1);
-        current_pipe = current_pipe->pipe;
+            dup2(fd[0], 0);
+            close(fd[1]);
+            close(fd[0]);
+            close(1); // мб можно убрать
+            dup2(vars->fd1, 1);
+            current_pipe = current_pipe->pipe;
+        }
+        do_cmd(current_pipe);    
+        dup2(vars->fd0, 0);
     }
-    do_cmd(current_pipe->args); 
-    dup2(vars->fd0, 0);    
+    else
+        do_cmd(vars);
 }
 
 
@@ -162,9 +187,9 @@ int        pipe_handler(char *command, t_data *vars)
     int     pipe_counter;
     int     pipe_commands_ammount;
     t_data  *tmp;
-    int     ready_array_size;     
+    // int     ready_array_size;     
     
-    ready_array_size = 0; //временно
+    // ready_array_size = 0; //временно
     pipe_counter = 1;
     parsed_by_pipe = semicolon(command, '|');
     pipe_commands_ammount = get_amount_line(parsed_by_pipe);
@@ -173,9 +198,9 @@ int        pipe_handler(char *command, t_data *vars)
     //     vars->pipe = ft_init(vars->envp);
     while (pipe_counter < pipe_commands_ammount + 1 && pipe_commands_ammount != 1)
     {
-        ready_array_size = 0; //временно
+        // ready_array_size = 0; //временно
         tmp = ft_init(vars->envp);
-        parse_command(parsed_by_pipe[pipe_counter - 1], tmp, &ready_array_size);
+        parse_command(parsed_by_pipe[pipe_counter - 1], tmp);
         pipe_counter++;
         ft_pipeadd_back(&vars, tmp);
     }
@@ -208,7 +233,9 @@ void free_structure(t_data *vars)
     {
         if (vars->args)
             ft_free_array(&vars->args);
-        
+        vars->args = NULL;
+        free_listof_pipes(&vars->pipe);
+        vars->pipe = NULL;
     }
 }
 
@@ -217,18 +244,23 @@ void        start(char *line, t_data *vars)
     char    **parsed_by_semicolon;
     int     commands_amount;
     int     counter;
-    int     ready_array_size;
+    // int     ready_array_size;
 
     counter = 0;
-    ready_array_size = 0; //когда сделаем очищение структуры перенсти эту переменную в функцию parse_command, чтобы она каждый раз обнулялась и заполняла струтукру с нуля
+    // ready_array_size = 0; //когда сделаем очищение структуры перенсти эту переменную в функцию parse_command, чтобы она каждый раз обнулялась и заполняла струтукру с нуля
     parsed_by_semicolon = semicolon(line, ';');
     commands_amount = get_amount_line(parsed_by_semicolon);
     take_out_spaces(parsed_by_semicolon, commands_amount);
     while (counter < commands_amount)
     {
         if (!pipe_handler(parsed_by_semicolon[counter], vars))
-            parse_command(parsed_by_semicolon[counter], vars, &ready_array_size);
+            parse_command(parsed_by_semicolon[counter], vars);
         cmd_exec(vars);
+        // if(vars->args)
+        //     ft_putstr_fd(vars->args[0], 1);
+        // ft_putchar_fd('\n', 1);
+        // if (vars->pipe->args && vars->pipe->args[0])
+        //     ft_putstr_fd(vars->pipe->args[0], 1);
         free_structure(vars);
         counter++;
     }

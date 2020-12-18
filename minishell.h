@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/16 23:31:13 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/18 22:27:54 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,9 @@
 # include "libft/libft.h"
 # include <errno.h> 
 # include <string.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
-// typedef struct      	pipe_data
-// {
-// 	char            	**envp;
-// 	char				**args;
-// 	struct pipe_data	*pipe;
-// }                   	pipe_data;
 
 typedef struct      	s_data
 {
