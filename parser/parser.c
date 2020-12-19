@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/19 23:41:14 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/20 02:53:06 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ void        start(char *line, t_data *vars)
 
     counter = 0;
     parsed_by_semicolon = semicolon(line, ';');
-    ft_putstr_fd("TEST final", 1);
+    // ft_putstr_fd("TEST final", 1);
     commands_amount = get_amount_line(parsed_by_semicolon);
     take_out_spaces(parsed_by_semicolon, commands_amount);
     while (counter < commands_amount)

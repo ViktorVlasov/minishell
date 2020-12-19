@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   semicolon.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/20 00:56:43 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/20 02:45:25 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,30 +103,99 @@ void        when_sem_met(sem_data *for_sem, int i, int *counter, char parse_symb
         }
 }
 
+// char        **semicolon(char *line, char parse_symb)
+// {
+//     sem_data    for_semicolon;
+//     int     i;
+//     int     counter;
+//     int     line_len;
+
+//     for_semicolon.add_if_semicolon_met = 0;
+//     for_semicolon.previous_semicolon_position = 0;
+//     for_semicolon.rem = NULL;
+//     for_semicolon.line = line;
+//     counter = 0;
+//     i = 0;
+//     line_len = ft_strlen(line);
+//     while (i < line_len)
+//     {
+//         when_sem_met(&for_semicolon, i, &counter, parse_symb);
+//         i++;
+//     }
+//     ft_putstr_fd("TEST before danger realloc\n", 1);
+//     //write(1, "1\n", 2);
+//     semicolon_realloc(&for_semicolon, counter, i);
+//     ft_putstr_fd("TEST after danger realloc\n", 1);
+//     if (for_semicolon.rem)
+//         free(for_semicolon.rem);
+//     return (for_semicolon.parsed_by_semicolon);
+// }
+
 char        **semicolon(char *line, char parse_symb)
 {
-    sem_data    for_semicolon;
     int     i;
     int     counter;
-    int     line_len;
+    int     add_if_semicolon_met;
+    int     previous_semicolon_position;
+    char    **parsed_by_semicolon;
+    char    *rem;
+    int     check_counter = 0;
 
-    for_semicolon.add_if_semicolon_met = 0;
-    for_semicolon.previous_semicolon_position = 0;
-    for_semicolon.rem = NULL;
-    for_semicolon.line = line;
+    add_if_semicolon_met = 0;
+    previous_semicolon_position = 0;
     counter = 0;
+    rem = NULL;
     i = 0;
-    line_len = ft_strlen(line);
-    while (i < line_len)
+    while (i < (int)ft_strlen(line))
     {
-        when_sem_met(&for_semicolon, i, &counter, parse_symb);
+        if (line[i] == parse_symb)
+        {
+            if (in_commas(line, i, '\'') == 0 &&
+                     in_commas(line, i, '\"') == 0 && in_screening(line, i) == 0)
+            {
+                check_counter++;
+            }
+        }
         i++;
     }
-    ft_putstr_fd("TEST before danger realloc\n", 1);
-    //write(1, "1\n", 2);
-    semicolon_realloc(&for_semicolon, counter, i);
-    ft_putstr_fd("TEST after danger realloc\n", 1);
-    if (for_semicolon.rem)
-        free(for_semicolon.rem);
-    return (for_semicolon.parsed_by_semicolon);
+    parsed_by_semicolon = (char **)malloc(sizeof(char *) * (check_counter + 2));
+    parsed_by_semicolon[check_counter + 1] = NULL;
+    i = 0;
+    while (i < (int)ft_strlen(line))
+    {
+        if (line[i] == parse_symb)
+        {
+            if (in_commas(line, i, '\'') == 0 &&
+                     in_commas(line, i, '\"') == 0 && in_screening(line, i) == 0)
+            {
+                if (counter == 0)
+                {
+                    parsed_by_semicolon[counter] = (char *)malloc(i + 1);
+                    ft_strlcpy(parsed_by_semicolon[counter], line, i + 1);
+                }
+                else
+                {
+                    parsed_by_semicolon[counter] = (char *)malloc(i - previous_semicolon_position);
+                    ft_strlcpy(parsed_by_semicolon[counter], line + previous_semicolon_position + 1, i - previous_semicolon_position);
+                }
+                rem = ft_realloc(rem, ft_strlen(rem) ,ft_strlen(line) - i);
+                ft_strlcpy(rem, line + i + 1, ft_strlen(line + i));
+                
+                previous_semicolon_position = i;
+                counter++;
+            } 
+        }
+        i++;
+    }
+    if (counter == 0)
+    {
+        parsed_by_semicolon[counter] = (char *)malloc(i + 1);
+        ft_strlcpy(parsed_by_semicolon[counter], line, i + 1);
+    }
+    else
+    {
+        parsed_by_semicolon[counter] = (char *)malloc(i - previous_semicolon_position);
+        ft_strlcpy(parsed_by_semicolon[counter], line + previous_semicolon_position + 1, i - previous_semicolon_position);
+    }
+    return (parsed_by_semicolon);
 }
