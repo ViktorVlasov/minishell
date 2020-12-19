@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:32:33 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/12 21:26:13 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/19 23:13:43 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ char **add_elem_in_arrayStr(char **src, char *elem)
     }
     if (!(res[i] = ft_strdup(elem)))
         return NULL;
-    i++;
-    res[i] = NULL;
     free(src);
     return (res);
 }
@@ -64,7 +62,7 @@ char **delete_elem_in_arrayStr(char **src, char *elem, int boolFindPart)
     k = 0;
     while (src[i])
     {
-        if (((ft_strncmp(src[i], elem, ft_strlen(elem)) == 0) && boolFindPart) || (ft_strcmp(src[i], elem) && (boolFindPart == 0)))
+        if (((boolFindPart && ft_strncmp(src[i], elem, ft_strlen(elem)) == 0)) || ((boolFindPart == 0) && ft_strcmp(src[i], elem) == 0))
             free(src[i++]);
         else
             res[k++] = src[i++];

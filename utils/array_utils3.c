@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:40:19 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 20:41:37 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/19 19:44:36 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	insertion_sort(char **mass, int n)
 
 char	*get_name_var_from_arg(char *argument)
 {
-	int		res_len;
 	int		i;
 	char	*name_var;
 

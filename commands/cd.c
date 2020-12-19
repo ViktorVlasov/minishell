@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/14 16:18:33 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/19 23:30:51 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			without_arguments_handler(t_data *data, char *old_pwd)
 	home_path = get_value_from_var(data->envp, "HOME=");
 	if (!home_path)
 	{
-		ft_putstr_fd("cd: HOME not set\n", 2);
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return (1);
 	}
 	if (ft_strlen(home_path) == 0)
@@ -69,7 +69,7 @@ int			minus_handler(t_data *data, char *current_pwd)
 	value_of_old_pwd = get_value_from_var(data->envp, "OLDPWD=");
 	if (!value_of_old_pwd)
 	{
-		ft_putstr_fd("cd: OLDPWD not set\n", 2);
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 		return (1);
 	}
 	if (ft_strlen(value_of_old_pwd) == 0)

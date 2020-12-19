@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/16 15:11:58 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/20 00:56:43 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,36 @@ int         in_screening(char *line, int symb_id)
     return (0);
 }
 
+size_t	ft_strlcpy1(char *dst, const char *src, size_t size)
+{
+	size_t tmpsize;
+	size_t i;
+
+	if (!dst || !src)
+		return (0);
+	tmpsize = size;
+	i = 0;
+	while (src[i] != '\0' && tmpsize > 0)
+	{
+		dst[i] = src[i];
+		tmpsize--;
+		i++;
+	}
+	if (i < size)
+		dst[i] = '\0';
+	else if (size > 0)
+		dst[i - 1] = '\0';
+	return (ft_strlen(src));
+}
+
 void         semicolon_realloc(sem_data *for_semicolon, int counter, int i)
 {
     for_semicolon->parsed_by_semicolon = ft_realloc_2arr(\
                 for_semicolon->parsed_by_semicolon, counter ,counter + 1);
+    ft_putstr_fd("TEST after realloc_2arr\n", 1);
     for_semicolon->parsed_by_semicolon[counter] =\
-            (char *)malloc(i - for_semicolon->previous_semicolon_position);
-    ft_strlcpy(for_semicolon->parsed_by_semicolon[counter],\
+            (char *)malloc(i - for_semicolon->previous_semicolon_position + 1 - for_semicolon->add_if_semicolon_met); //возможно на 1 сивол больше надо выделить
+    ft_strlcpy1(for_semicolon->parsed_by_semicolon[counter],\
             for_semicolon->line + for_semicolon->previous_semicolon_position +\
                 for_semicolon->add_if_semicolon_met, i -\
                     for_semicolon->previous_semicolon_position + 1 -\
@@ -71,7 +94,7 @@ void        when_sem_met(sem_data *for_sem, int i, int *counter, char parse_symb
             {
                 semicolon_realloc(for_sem, *counter, i);
                 for_sem->rem = ft_realloc(for_sem->rem,\
-                        ft_strlen(for_sem->rem), ft_strlen(for_sem->line) - i + 1);
+                        ft_strlen(for_sem->rem), ft_strlen(for_sem->line) - i - 1); //сменили у i плюс на минус
                 ft_strlcpy(for_sem->rem, for_sem->line + i + 1, ft_strlen(for_sem->line + i));
                 for_sem->previous_semicolon_position = i;
                 *counter += 1;
@@ -99,7 +122,10 @@ char        **semicolon(char *line, char parse_symb)
         when_sem_met(&for_semicolon, i, &counter, parse_symb);
         i++;
     }
+    ft_putstr_fd("TEST before danger realloc\n", 1);
+    //write(1, "1\n", 2);
     semicolon_realloc(&for_semicolon, counter, i);
+    ft_putstr_fd("TEST after danger realloc\n", 1);
     if (for_semicolon.rem)
         free(for_semicolon.rem);
     return (for_semicolon.parsed_by_semicolon);

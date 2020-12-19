@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/18 22:27:54 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/19 19:47:16 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <stdio.h>
 
 
 typedef struct      	s_data
@@ -60,6 +61,7 @@ void		replace_elem_in_envp(char **src, char *name_variable, char *replace);
 char		*get_name_var_from_arg(char *argument);
 void		insertion_sort(char **mass, int n);
 t_data		*ft_init(char **content);
+int         ft_command(t_data *vars);
 
 /*
 * Error_messages
