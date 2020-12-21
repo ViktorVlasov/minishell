@@ -6,7 +6,7 @@
 /*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/20 02:55:26 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/21 18:11:40 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int main(int argc, char **argv, char **envp)
     //echo ; ech'ab    co'   23
     argc = 0;
     argv = NULL;
-    // char    *line = "export abc=123;export sdasd; export";
+    // char    *line = "export abc=123;export sdasd; export; env";
     // char    *line = "export ;export abrakadabra; unset abrakadabra; export";
-    // char    *line = "   echo abc | grep1 \"abcd\";export abc=123;export sdasd;"; //WTF????????????????????????????????????????????????
-    // char    *line = "echo 1111111111111111111; echo 12abc=123; echo12 sdasd"; 
+    // char    *line = "   echo abc | grep "abc";export abc=123;export sdasd; export"; //WTF????????????????????????????????????????????????
+    // char    *line = "echo 1111111111111111111; echo 12abc=123';' echo12 sdasd"; 
     char    *line;
     t_data  *vars;
     vars = ft_init(envp);
@@ -69,6 +69,7 @@ int main(int argc, char **argv, char **envp)
     // get_next_line(0, &line);
     // start(line, vars);
     // free(line);
+    
     ft_putstr_fd("minishell: ", 1);
     while (get_next_line(0, &line) > 0)
     {
