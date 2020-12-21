@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 21:28:23 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 23:33:47 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
 
 void        do_cmd(t_data *vars, int is_pipe)
 {
+	// if (vars->names_files)
+	// 	do_redirects();
 	// Обработка редиректов (возможно здесь)
 	// printf("%s\n", args[0]);
 	if (vars->args && vars->args[0])
@@ -192,6 +194,31 @@ void	ft_pipeadd_back(t_data **lst, t_data *new)
 		*lst = new;
 }
 
+// void redirect_handler(t_data *vars, char *line)
+// {
+// 	char    **parsed_by_redirect;
+// 	int     redirect_counter;
+// 	int     pipe_commands_ammount;
+// 	t_data  *tmp;
+
+// 	redirect_counter = 1;
+// 	parsed_by_redirect = semicolon(command, '>');
+// 	pipe_commands_ammount = get_amount_line(parsed_by_pipe);
+// 	take_out_spaces(parsed_by_pipe, pipe_commands_ammount);
+// 	while (pipe_counter < pipe_commands_ammount + 1 && pipe_commands_ammount != 1)
+// 	{
+// 		tmp = ft_init(vars->envp);
+		
+// 		redirect_handler(vars, parsed_by_pipe[pipe_counter - 1]);
+		
+// 		parse_command(parsed_by_pipe[pipe_counter - 1], tmp);
+// 		pipe_counter++;
+// 		ft_pipeadd_back(&vars, tmp);
+// 	}
+// 	ft_free_array(&parsed_by_pipe); 
+// 	return (pipe_counter == 1 ? 0 : 1); 
+// }
+
 
 int        pipe_handler(char *command, t_data *vars)
 {
@@ -207,6 +234,9 @@ int        pipe_handler(char *command, t_data *vars)
 	while (pipe_counter < pipe_commands_ammount + 1 && pipe_commands_ammount != 1)
 	{
 		tmp = ft_init(vars->envp);
+		
+		// redirect_handler(vars, parsed_by_pipe[pipe_counter - 1]);
+		
 		parse_command(parsed_by_pipe[pipe_counter - 1], tmp);
 		pipe_counter++;
 		ft_pipeadd_back(&vars, tmp);
@@ -256,13 +286,15 @@ void        start(char *line, t_data *vars)
 	if (error_check(line) == 1)
 		return ;
 	parsed_by_semicolon = semicolon(line, ';');
-	// ft_putstr_fd("TEST final", 1);
 	commands_amount = get_amount_line(parsed_by_semicolon);
 	take_out_spaces(parsed_by_semicolon, commands_amount);
 	while (counter < commands_amount)
 	{
 		if (!pipe_handler(parsed_by_semicolon[counter], vars))
+		{
+			//redirect_handler();
 			parse_command(parsed_by_semicolon[counter], vars);
+		}
 		cmd_exec(vars);
 		free_structure(vars);
 		counter++;

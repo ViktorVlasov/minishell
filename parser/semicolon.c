@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   semicolon.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 18:04:07 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/21 22:00:03 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ int         in_commas(char *line, int symb_id, char comma_type)
     int     line_len;
 
     i = 0;
-    check1 = 0;
-    check2 = 0;
+    check1 = -1;
+    check2 = -1;
     line_len = ft_strlen(line);
     while (i < line_len)
     {
-        if (line[i] == comma_type && check1 != 0)
+        if (line[i] == comma_type && check1 != -1)
             check2 = i;
         else if (line[i] == comma_type)
             check1 = i;
-        if (check1 != 0 && check2 != 0)
+        if (check1 != -1 && check2 != -1)
         {
             if (symb_id > check1 && symb_id < check2)
                 return (1);
-            check1 = 0;
-            check2 = 0;
+            check1 = -1;
+            check2 = -1;
         }
         i++;
     }
@@ -46,28 +46,6 @@ int         in_screening(char *line, int symb_id)
     if (line[symb_id - 1] == '\\')
         return (1);
     return (0);
-}
-
-size_t	ft_strlcpy1(char *dst, const char *src, size_t size)
-{
-	size_t tmpsize;
-	size_t i;
-
-	if (!dst || !src)
-		return (0);
-	tmpsize = size;
-	i = 0;
-	while (src[i] != '\0' && tmpsize > 0)
-	{
-		dst[i] = src[i];
-		tmpsize--;
-		i++;
-	}
-	if (i < size)
-		dst[i] = '\0';
-	else if (size > 0)
-		dst[i - 1] = '\0';
-	return (ft_strlen(src));
 }
 
 void         semicolon_realloc(sem_data *for_semicolon, int counter, int i)

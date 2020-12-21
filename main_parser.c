@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 20:34:12 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 21:59:07 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(int argc, char **argv, char **envp)
     //echo ; ech'ab    co'   23
     argc = 0;
     argv = NULL;
-    // char    *line = "hjlskad |";
+    // char    *line = "';'";
     // char    *line = "export ;export abrakadabra; unset abrakadabra; export";
     // char    *line = "   echo abc | grep "abc";export abc=123;export sdasd; export"; //WTF????????????????????????????????????????????????
     // char    *line = "echo 1111111111111111111; echo 12abc=123';' echo12 sdasd"; 
@@ -56,15 +56,6 @@ int main(int argc, char **argv, char **envp)
     // vars->envp = add_elem_in_arrayStr(vars->envp, "PATH=/Users/efumiko/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/efumiko/.brew/bin");
     
     init_structure(vars);
-
-
-    int i = 0;
-    int check = get_amount_line(envp);
-    // while (i < check)
-    // {
-    //     printf("%s\n", vars.envp[i]);
-    //     i++;
-    // }
     
     // get_next_line(0, &line);
     // start(line, vars);
@@ -77,14 +68,7 @@ int main(int argc, char **argv, char **envp)
         free(line);
         ft_putstr_fd("minishell: ", 1);
     }
-    
-    check = get_amount_line(vars->args);
-    while (i < check)
-    {
-        // printf("%s\n", vars->args[i]);
-        i++;
-    }
-    // ft_free_array(&vars->args);
+
     ft_free_array(&vars->envp);
     free(vars);
 }
