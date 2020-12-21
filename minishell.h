@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 19:15:04 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 19:33:18 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct      	s_data
 
 typedef struct      semicolon_data
 {
-	int    			add_if_semicolon_met;
     int     		previous_semicolon_position;
 	char    		**parsed_by_semicolon;
 	char 			*line;

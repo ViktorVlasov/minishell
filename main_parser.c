@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 18:11:37 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 19:33:35 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int main(int argc, char **argv, char **envp)
     //echo ; ech'ab    co'   23
     argc = 0;
     argv = NULL;
-    // char    *line = "export abc=123;export sdasd; export";
-    // char    *line = "ls";
-    // char    *line = "   echo abc | grep1 \"abcd\";export abc=123;export sdasd;"; //WTF????????????????????????????????????????????????
-    // char    *line = "echo 1111111111111111111; echo 12abc=123; echo12 sdasd"; 
+    // char    *line = "export abc=123;export sdasd; export; env";
+    // char    *line = "export ;export abrakadabra; unset abrakadabra; export";
+    // char    *line = "   echo abc | grep "abc";export abc=123;export sdasd; export"; //WTF????????????????????????????????????????????????
+    // char    *line = "echo 1111111111111111111; echo 12abc=123';' echo12 sdasd"; 
     char    *line;
     t_data  *vars;
     vars = ft_init(envp);
@@ -69,6 +69,7 @@ int main(int argc, char **argv, char **envp)
     // get_next_line(0, &line);
     // start(line, vars);
     // free(line);
+    
     ft_putstr_fd("minishell: ", 1);
     while (get_next_line(0, &line) > 0)
     {
