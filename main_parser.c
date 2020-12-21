@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/20 02:55:26 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/21 18:11:37 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int main(int argc, char **argv, char **envp)
     argc = 0;
     argv = NULL;
     // char    *line = "export abc=123;export sdasd; export";
-    // char    *line = "export ;export abrakadabra; unset abrakadabra; export";
+    // char    *line = "ls";
     // char    *line = "   echo abc | grep1 \"abcd\";export abc=123;export sdasd;"; //WTF????????????????????????????????????????????????
     // char    *line = "echo 1111111111111111111; echo 12abc=123; echo12 sdasd"; 
     char    *line;

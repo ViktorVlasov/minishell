@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:43:21 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/19 22:20:47 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 19:29:39 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,5 @@ int         ft_command(t_data *vars)
 	wait(&status);
 	if (WIFEXITED(status) != 0)
 		status = WEXITSTATUS(status);
-	if (status == 1)
-		return (1);
-	return (0);
+	return (status);
 }

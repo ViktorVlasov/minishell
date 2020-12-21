@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/19 19:47:16 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 19:15:04 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		ft_pwd();
 void		ft_env(t_data *data);
 int			ft_export(t_data *data);
 int			ft_cd(t_data *data);
-int			ft_exit(t_data *data);
+int			ft_exit(t_data *data, int is_pipe);
 int			ft_unset(t_data *data);
 
 #endif
