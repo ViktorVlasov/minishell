@@ -6,13 +6,13 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:19:11 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 20:58:36 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 20:25:32 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_env(t_data *data)
+int	ft_env(t_data *data)
 {
 	int i;
 
@@ -26,4 +26,5 @@ void	ft_env(t_data *data)
 		}
 		i++;
 	}
+	return (0);
 }

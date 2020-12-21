@@ -6,31 +6,46 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 19:28:48 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 21:28:23 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
+int		ft_puterror(char *s)
+{
+	ft_putstr_fd("syntax error near unexpected token `", 2);
+	ft_putstr_fd(s, 2);
+	ft_putstr_fd("'\n", 2);
+	return (1);
+}
+
 int        error_check(char *line)
 {
 	int     i;
+	int		first_after_space;
 
 	i = 0;
 	while (line[i] == ' ' && line[i] != '\0')
 		i++;
-	if (line[i] == ';' && line[i + 1] == '\0')
-		ft_putstr_fd("syntax error near unexpected token `;'", 1);
-	else if (line[i] == ';' && line[i + 1] == ';')
-		ft_putstr_fd("syntax error near unexpected token `;;'", 1);
-	else if (line[i] == '>' && line[i + 1] == '\0')
-		ft_putstr_fd("syntax error near unexpected token `newline'", 1);
-	else if (line[i] == '>' && line[i + 1] == '>')
-		ft_putstr_fd(";;", 1);
-		
-		
-		 //; > >> < << |
+	first_after_space = i;
+	i--;
+	while (line[++i] != '\0')
+		if (in_commas(line, i, '\'') == 1 ||
+				in_commas(line, i, '\"') == 1 || in_screening(line, i) == 1)
+			continue;
+		else if (line[i] == ';' && line[i + 1] == ';')
+			return(ft_puterror(";;"));
+		else if (line[i] == ';' && i == first_after_space)
+			return(ft_puterror(";"));
+		else if ((line[i] == '>' && line[i + 1] == '\0') || \
+			(line[i] == '>' && line[i + 1] == '>' && line[i + 2] == '\0') || \
+			(line[i] == '<' && line[i + 1] == '\0') || \
+			(line[i] == '<' && line[i + 1] == '<' && line[i + 2] == '\0'))
+			return(ft_puterror("newline"));
+		else if (line[i] == '|' && i == first_after_space)
+			return(ft_puterror("|"));
 	return (0);
 }
 
@@ -106,18 +121,17 @@ void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
 
 void        do_cmd(t_data *vars, int is_pipe)
 {
-	(void)is_pipe;
 	// Обработка редиректов (возможно здесь)
 	// printf("%s\n", args[0]);
 	if (vars->args && vars->args[0])
 	{
 		// ft_putstr_fd(vars->args[0], 1);
 		if (ft_strcmp(vars->args[0], "pwd") == 0)
-			ft_pwd();
+			vars->err_status = ft_pwd();
 		else if (ft_strcmp(vars->args[0], "env") == 0)
-			ft_env(vars);
+			vars->err_status = ft_env(vars);
 		else if (ft_strcmp(vars->args[0], "echo") == 0)
-			ft_echo(vars);
+			vars->err_status = ft_echo(vars);
 		else if (ft_strcmp(vars->args[0], "export") == 0)
 			vars->err_status = ft_export(vars);
 		else if (ft_strcmp(vars->args[0], "unset") == 0)
@@ -239,6 +253,8 @@ void        start(char *line, t_data *vars)
 	int     counter;
 
 	counter = 0;
+	if (error_check(line) == 1)
+		return ;
 	parsed_by_semicolon = semicolon(line, ';');
 	// ft_putstr_fd("TEST final", 1);
 	commands_amount = get_amount_line(parsed_by_semicolon);

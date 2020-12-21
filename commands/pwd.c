@@ -6,13 +6,13 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 20:31:44 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 22:19:43 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 20:26:43 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_pwd(void)
+int	ft_pwd(void)
 {
 	char *dir;
 
@@ -20,4 +20,5 @@ void	ft_pwd(void)
 	ft_putstr_fd(dir, 1);
 	ft_putchar_fd('\n', 1);
 	free(dir);
+	return (0);
 }

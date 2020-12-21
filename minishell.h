@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 19:33:18 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 20:51:26 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char		*get_name_var_from_arg(char *argument);
 void		insertion_sort(char **mass, int n);
 t_data		*ft_init(char **content);
 int         ft_command(t_data *vars);
+int         in_commas(char *line, int symb_id, char comma_type);
 
 /*
 * Error_messages
@@ -74,9 +75,9 @@ int			path_error(char *path);
 * Commands
 */
 
-void		ft_echo(t_data *data);
-void		ft_pwd();
-void		ft_env(t_data *data);
+int		ft_echo(t_data *data);
+int		ft_pwd();
+int		ft_env(t_data *data);
 int			ft_export(t_data *data);
 int			ft_cd(t_data *data);
 int			ft_exit(t_data *data, int is_pipe);

@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 21:36:50 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 22:29:08 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 20:17:19 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,26 @@ int		ft_print_args(char **sorted_envp)
 	return (0);
 }
 
-int		valid_arg(char *arg)
+int		valid_arg(char *arg, t_data *data)
 {
 	int i;
 
 	i = 0;
 	if ((arg[0] == '\0') || (!ft_isalpha(arg[0]) && (arg[0] != '_')))
-		return (1);
+	{
+		data->err_status = 1;
+		return (error_message_exp(arg));				
+	}
 	while (arg[++i])
 		if (arg[i] == '=')
 			break ;
 		else if (arg[i] == '_' || ft_isalpha(arg[i]) || ft_isdigit(arg[i]))
 			continue;
 		else
-			return (1);
+		{
+			data->err_status = 1;
+			return (error_message_exp(arg));				
+		}
 	return (0);
 }
 
@@ -62,11 +68,11 @@ int		ft_export_with_args(t_data *data)
 	int		i;
 	char	*name_variable;
 
-	i = 1;
-	while (data->args[i])
+	i = 0;
+	while (data->args[++i])
 	{
-		if (valid_arg(data->args[i]))
-			return (error_message_exp(data->args[i]));
+		if (valid_arg(data->args[i], data))
+			continue;
 		if (ft_strchr(data->args[i], '=') != NULL)
 		{
 			name_variable = get_name_var_from_arg(data->args[i]);
@@ -81,15 +87,15 @@ int		ft_export_with_args(t_data *data)
 			if (find_elem_in_arrayStr(data->envp, data->args[i], 0) == NULL)
 				data->envp = add_elem_in_arrayStr(data->envp, data->args[i]);
 		}
-		i++;
 	}
-	return (0);
+	return (data->err_status == 1 ? 1 : 0);
 }
 
 int		ft_export(t_data *data)
 {
 	char	**sorted_envp;
 
+	data->err_status = 0;
 	if (!data->args[1])
 	{
 		sorted_envp = ft_strdup_2arr(data->envp);

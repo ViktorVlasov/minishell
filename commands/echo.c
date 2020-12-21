@@ -6,13 +6,13 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:36 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/12 16:07:24 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 20:27:48 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_echo(t_data *data)
+int	ft_echo(t_data *data)
 {
 	int i;
 	int flag;
@@ -22,7 +22,7 @@ void	ft_echo(t_data *data)
 	if (!(data->args[i]))
 	{
 		ft_putchar_fd('\n', 1);
-		return ;
+		return (0);
 	}
 	else if (ft_strncmp(data->args[i], "-n", 3) == 0)
 	{
@@ -38,4 +38,5 @@ void	ft_echo(t_data *data)
 	}
 	if (!flag)
 		ft_putstr_fd("\n", 1);
+	return (0);
 }

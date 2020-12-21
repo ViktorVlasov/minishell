@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 22:28:08 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/21 18:16:02 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 19:49:01 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ int	path_error(char *path)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putchar_fd('\n', 2);
-	return (errno);
+	return (1);
 }

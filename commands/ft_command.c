@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:43:21 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/21 19:29:39 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 20:36:13 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ void error_message_rel_path(t_data *vars, int f_no_dir_and_exist, \
 {
 	if (f_no_dir_and_exist == 0)
 	{
-		ft_putstr_fd("minishell: ", 1);
-		ft_putstr_fd(vars->args[0], 1);
-		ft_putstr_fd(": command not found\n", 1);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(vars->args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 	}
 	else if (f_have_rights == 0)
 	{
-		ft_putstr_fd("minishell: ", 1);
-		ft_putstr_fd(vars->args[0], 1);
-		ft_putstr_fd(": Permission denied\n", 1);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(vars->args[0], 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 	}
 }
 
@@ -88,24 +88,24 @@ int check_absolute(t_data *vars)
 	
 	if (stat(vars->args[0], &buf) == -1)
 	{
-		ft_putstr_fd("minishell: ", 1);
-		ft_putstr_fd(vars->args[0], 1);
-		ft_putstr_fd(": No such file or directory\n", 1);
-		return (1);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(vars->args[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (127);
 	}
 	if (buf.st_mode & S_IFDIR)
 	{
-		ft_putstr_fd("minishell: ", 1);
-		ft_putstr_fd(vars->args[0], 1);
-		ft_putstr_fd(": is a directory\n", 1);
-		return (1);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(vars->args[0], 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		return (126);
 	}
 	if (!(buf.st_mode & S_IXUSR))
 	{
-		ft_putstr_fd("minishell: ", 1);
-		ft_putstr_fd(vars->args[0], 1);
-		ft_putstr_fd(": Permission denied\n", 1);
-		return (1);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(vars->args[0], 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		return (126);
 	}
 	return 0;
 }

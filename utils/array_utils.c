@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:32:33 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/19 23:13:43 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 20:33:41 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	ft_free_array(char ***ar)
 
 	array = *ar;
 	i = 0;
-	while (array[i])
+	while (array && array[i])
 	{
 		free(array[i]);
 		array[i] = NULL;

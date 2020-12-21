@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 19:33:35 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/21 20:34:12 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(int argc, char **argv, char **envp)
     //echo ; ech'ab    co'   23
     argc = 0;
     argv = NULL;
-    // char    *line = "export abc=123;export sdasd; export; env";
+    // char    *line = "hjlskad |";
     // char    *line = "export ;export abrakadabra; unset abrakadabra; export";
     // char    *line = "   echo abc | grep "abc";export abc=123;export sdasd; export"; //WTF????????????????????????????????????????????????
     // char    *line = "echo 1111111111111111111; echo 12abc=123';' echo12 sdasd"; 
