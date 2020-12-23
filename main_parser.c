@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 21:59:07 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/23 22:53:23 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_data	*ft_init(char **content)
     new->args = NULL;
 	new->envp = ft_strdup_2arr((char **)content);
 	new->pipe = NULL;
+	new->redirects = NULL;
     new->err_status = 0;
 	return (new);
 }

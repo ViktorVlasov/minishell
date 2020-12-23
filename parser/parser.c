@@ -3,51 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 23:33:47 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/23 23:02:48 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
-
-int		ft_puterror(char *s)
-{
-	ft_putstr_fd("syntax error near unexpected token `", 2);
-	ft_putstr_fd(s, 2);
-	ft_putstr_fd("'\n", 2);
-	return (1);
-}
-
-int        error_check(char *line)
-{
-	int     i;
-	int		first_after_space;
-
-	i = 0;
-	while (line[i] == ' ' && line[i] != '\0')
-		i++;
-	first_after_space = i;
-	i--;
-	while (line[++i] != '\0')
-		if (in_commas(line, i, '\'') == 1 ||
-				in_commas(line, i, '\"') == 1 || in_screening(line, i) == 1)
-			continue;
-		else if (line[i] == ';' && line[i + 1] == ';')
-			return(ft_puterror(";;"));
-		else if (line[i] == ';' && i == first_after_space)
-			return(ft_puterror(";"));
-		else if ((line[i] == '>' && line[i + 1] == '\0') || \
-			(line[i] == '>' && line[i + 1] == '>' && line[i + 2] == '\0') || \
-			(line[i] == '<' && line[i + 1] == '\0') || \
-			(line[i] == '<' && line[i + 1] == '<' && line[i + 2] == '\0'))
-			return(ft_puterror("newline"));
-		else if (line[i] == '|' && i == first_after_space)
-			return(ft_puterror("|"));
-	return (0);
-}
 
 char        *pars_one_arg(int *i, char *line, t_data *vars)
 {
@@ -119,151 +83,6 @@ void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
 	}
 }
 
-void        do_cmd(t_data *vars, int is_pipe)
-{
-	// if (vars->names_files)
-	// 	do_redirects();
-	// Обработка редиректов (возможно здесь)
-	// printf("%s\n", args[0]);
-	if (vars->args && vars->args[0])
-	{
-		// ft_putstr_fd(vars->args[0], 1);
-		if (ft_strcmp(vars->args[0], "pwd") == 0)
-			vars->err_status = ft_pwd();
-		else if (ft_strcmp(vars->args[0], "env") == 0)
-			vars->err_status = ft_env(vars);
-		else if (ft_strcmp(vars->args[0], "echo") == 0)
-			vars->err_status = ft_echo(vars);
-		else if (ft_strcmp(vars->args[0], "export") == 0)
-			vars->err_status = ft_export(vars);
-		else if (ft_strcmp(vars->args[0], "unset") == 0)
-			vars->err_status = ft_unset(vars);
-		else if (ft_strcmp(vars->args[0], "cd") == 0)
-			vars->err_status = ft_cd(vars);
-		else if (ft_strcmp(vars->args[0], "exit") == 0)
-			vars->err_status = ft_exit(vars, is_pipe);
-		else
-			vars->err_status = ft_command(vars);
-	}
-}
-
-void        cmd_exec(t_data *vars)
-{
-	// if нужно проверить, есть ли среди аргментов редирект,
-	//else //выполняем эти аргументы
-	int fd[2];
-	t_data *current_pipe;
-	current_pipe = vars->pipe;
-	
-	if (vars->pipe)
-	{
-		while (current_pipe->pipe)
-		{
-			pipe(fd);
-			dup2(fd[1], 1);
-			do_cmd(current_pipe, 1);
-			dup2(fd[0], 0);
-			close(fd[1]);
-			close(fd[0]);
-			close(1); // мб можно убрать
-			dup2(vars->fd1, 1);
-			current_pipe = current_pipe->pipe;
-		}
-		do_cmd(current_pipe, 1);
-		dup2(vars->fd0, 0);
-	}
-	else
-		do_cmd(vars, 0);
-}
-
-
-void	ft_pipeadd_back(t_data **lst, t_data *new)
-{
-	t_data	*lst_back;
-
-	if (!lst || !new)
-		return ;
-	if (*lst)
-	{
-		lst_back = *lst;
-		while (lst_back->pipe)
-			lst_back = lst_back->pipe;
-		lst_back->pipe = new;
-	}
-	else
-		*lst = new;
-}
-
-// void redirect_handler(t_data *vars, char *line)
-// {
-// 	char    **parsed_by_redirect;
-// 	int     redirect_counter;
-// 	int     pipe_commands_ammount;
-// 	t_data  *tmp;
-
-// 	redirect_counter = 1;
-// 	parsed_by_redirect = semicolon(command, '>');
-// 	pipe_commands_ammount = get_amount_line(parsed_by_pipe);
-// 	take_out_spaces(parsed_by_pipe, pipe_commands_ammount);
-// 	while (pipe_counter < pipe_commands_ammount + 1 && pipe_commands_ammount != 1)
-// 	{
-// 		tmp = ft_init(vars->envp);
-		
-// 		redirect_handler(vars, parsed_by_pipe[pipe_counter - 1]);
-		
-// 		parse_command(parsed_by_pipe[pipe_counter - 1], tmp);
-// 		pipe_counter++;
-// 		ft_pipeadd_back(&vars, tmp);
-// 	}
-// 	ft_free_array(&parsed_by_pipe); 
-// 	return (pipe_counter == 1 ? 0 : 1); 
-// }
-
-
-int        pipe_handler(char *command, t_data *vars)
-{
-	char    **parsed_by_pipe;
-	int     pipe_counter;
-	int     pipe_commands_ammount;
-	t_data  *tmp;
-
-	pipe_counter = 1;
-	parsed_by_pipe = semicolon(command, '|');
-	pipe_commands_ammount = get_amount_line(parsed_by_pipe);
-	take_out_spaces(parsed_by_pipe, pipe_commands_ammount);
-	while (pipe_counter < pipe_commands_ammount + 1 && pipe_commands_ammount != 1)
-	{
-		tmp = ft_init(vars->envp);
-		
-		// redirect_handler(vars, parsed_by_pipe[pipe_counter - 1]);
-		
-		parse_command(parsed_by_pipe[pipe_counter - 1], tmp);
-		pipe_counter++;
-		ft_pipeadd_back(&vars, tmp);
-	}
-	ft_free_array(&parsed_by_pipe); 
-	return (pipe_counter == 1 ? 0 : 1);      
-}
-
-
-void	free_listof_pipes(t_data **lst)
-{
-	t_data	*tmp;
-
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		ft_free_array(&((*lst)->args));
-		ft_free_array(&((*lst)->envp));
-		tmp = *lst;
-		*lst = tmp->pipe;
-		free(tmp);
-	}
-	*lst = NULL;
-}
-
-
 void free_structure(t_data *vars)
 {
 	if (vars)
@@ -271,8 +90,10 @@ void free_structure(t_data *vars)
 		if (vars->args)
 			ft_free_array(&vars->args);
 		vars->args = NULL;
-		free_listof_pipes(&vars->pipe);
+		free_listof_pipes(&vars->pipe); //добавить сюда читску редиректов
 		vars->pipe = NULL;
+		// free_listof_redirects(&vars->redirects);  !!!!!!!!!!
+		// vars->redirects = NULL;
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/21 23:03:59 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/24 00:16:17 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <sys/stat.h>
 # include <stdio.h>
 
+typedef struct      red_data
+{
+    char			*file_name;
+	char			*redir_type;
+	struct red_data	*next;
+}                   r_data;
 
 typedef struct      	s_data
 {
@@ -29,6 +35,7 @@ typedef struct      	s_data
 	struct s_data		*pipe;
 	int					fd0;
 	int					fd1;
+	r_data				*redirects;
 }                   	t_data;
 
 typedef struct      semicolon_data
@@ -38,6 +45,7 @@ typedef struct      semicolon_data
 	char 			*line;
 	char    		*rem;
 }                   sem_data;
+
 
 void        start(char *line, t_data *vars);
 char        *add_char(char *str, char symb);
@@ -62,6 +70,9 @@ void		insertion_sort(char **mass, int n);
 t_data		*ft_init(char **content);
 int         ft_command(t_data *vars);
 int         in_commas(char *line, int symb_id, char comma_type);
+int			pipe_handler(char *command, t_data *vars);
+void        cmd_exec(t_data *vars);
+char        *pars_one_arg(int *i, char *line, t_data *vars);
 
 /*
 * Error_messages
@@ -70,6 +81,7 @@ int         in_commas(char *line, int symb_id, char comma_type);
 int			error_message_unset(char *invalid_arg);
 int			error_message_exp(char *invalid_arg);
 int			path_error(char *path);
+int			error_check(char *line);
 
 /* 
 * Commands
