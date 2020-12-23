@@ -6,7 +6,7 @@
 /*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 23:01:49 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/24 00:18:53 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/24 00:23:02 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		ft_one_red(int *i, r_data *tmp_red, char *line)
 
 void		ft_two_red()
 {
-	
+	//
 }
 
 void		ft_red_worker(r_data *tmp_red, char *line, int *i)
