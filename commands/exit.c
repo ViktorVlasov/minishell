@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 22:11:55 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/21 19:21:07 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/26 17:41:37 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-** exit 123 123 - many argumenst bash: exit: too many arguments
-** exit asdsd - bash: exit: asdsd: numeric argument required
-*/
 
 static	int	check_argument_for_exit(char *string)
 {
@@ -40,7 +35,7 @@ int			ft_exit(t_data *data, int is_pipe)
 {
 	int code;
 
-	code = data->err_status; // code = $?
+	code = data->err_status;
 	if (is_pipe == 0)
 		ft_putstr_fd("exit\n", 1);
 	if (data->args[1])

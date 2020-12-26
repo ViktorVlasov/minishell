@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 17:42:37 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/19 23:30:51 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/26 18:01:24 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void		change_oldpwd(t_data *data, char *old_pwd)
 {
 	char *tmp;
 
-	if (find_elem_in_arrayStr(data->envp, "OLDPWD=", 1))
-		data->envp = delete_elem_in_arrayStr(data->envp, "OLDPWD=", 1);
+	if (find_elem_in_arraystr(data->envp, "OLDPWD=", 1))
+		data->envp = delete_elem_in_arraystr(data->envp, "OLDPWD=", 1);
 	tmp = old_pwd;
 	old_pwd = ft_strjoin("OLDPWD=", old_pwd);
-	data->envp = add_elem_in_arrayStr(data->envp, old_pwd);
+	data->envp = add_elem_in_arraystr(data->envp, old_pwd);
 	free(tmp);
 	free(old_pwd);
 }
@@ -31,11 +31,11 @@ void		change_pwd(t_data *data)
 	char *tmp;
 
 	pwd = getcwd(NULL, 0);
-	if (find_elem_in_arrayStr(data->envp, "PWD=", 1))
-		data->envp = delete_elem_in_arrayStr(data->envp, "PWD=", 1);
+	if (find_elem_in_arraystr(data->envp, "PWD=", 1))
+		data->envp = delete_elem_in_arraystr(data->envp, "PWD=", 1);
 	tmp = pwd;
 	pwd = ft_strjoin("PWD=", pwd);
-	data->envp = add_elem_in_arrayStr(data->envp, pwd);
+	data->envp = add_elem_in_arraystr(data->envp, pwd);
 	free(pwd);
 	free(tmp);
 }

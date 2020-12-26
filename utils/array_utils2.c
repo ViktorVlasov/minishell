@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <ddraco@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:12:51 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/20 02:52:36 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 18:07:03 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		get_amount_line(char **lines)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!lines || !(*lines))
@@ -24,55 +24,45 @@ int		get_amount_line(char **lines)
 	return (i);
 }
 
-int global_i = 1;
-
-char        **ft_realloc_2arr(char **arr, int prev_size ,int size)
+char	**ft_realloc_2arr(char **arr, int prev_size, int size)
 {
-    char    **res;
-    int     i;
+	char	**res;
+	int		i;
 
-    i = 0;
-    res = (char **)malloc((size + 1) * sizeof(char*));
-    if (res == NULL)
-        return (NULL);
-    // ft_putnbr_fd(size, 1);
-    // ft_putstr_fd("^size^\n", 1);
-    while (i < prev_size)
-    {
-        // ft_putstr_fd(arr[i], 1);
-        // ft_putstr_fd("\n", 1);
-        res[i] = ft_strdup(arr[i]);
-        // free(arr[i]);
-        // arr[i] = NULL;
-        i++;
-    }
-    // ft_putstr_fd("Finish\n", 1);
-    while (i < size + 1)
-        res[i++] = NULL;
-    if (arr && prev_size != 0)
-        ft_free_array(&arr);
-        // free(arr);
-    return(res);
+	i = 0;
+	res = (char **)malloc((size + 1) * sizeof(char*));
+	if (res == NULL)
+		return (NULL);
+	while (i < prev_size)
+	{
+		res[i] = ft_strdup(arr[i]);
+		i++;
+	}
+	while (i < size + 1)
+		res[i++] = NULL;
+	if (arr && prev_size != 0)
+		ft_free_array(&arr);
+	return (res);
 }
 
-char        **ft_strdup_2arr(char **arr)
+char	**ft_strdup_2arr(char **arr)
 {
-    char    **res;
-    int     i;
+	char	**res;
+	int		i;
 	int		size;
 
-	size = get_amount_line(arr); 
-    i = 0;
-    res = (char **)malloc(sizeof(char*) * (size + 1));
-    if (res == NULL)
-        return (NULL);
-    while (i < size)
-    {
-        res[i] = ft_strdup(arr[i]);
-        i++;
-    }
-    res[i] = NULL;
-    return(res);
+	size = get_amount_line(arr);
+	i = 0;
+	res = (char **)malloc(sizeof(char*) * (size + 1));
+	if (res == NULL)
+		return (NULL);
+	while (i < size)
+	{
+		res[i] = ft_strdup(arr[i]);
+		i++;
+	}
+	res[i] = NULL;
+	return (res);
 }
 
 void	*ft_realloc(void *ptr, int size, int newsize)
@@ -90,15 +80,15 @@ void	*ft_realloc(void *ptr, int size, int newsize)
 	}
 	i = 0;
 	while (i < size)
-    {
+	{
 		*(new + i) = *(str + i);
-        i++;
-    }
+		i++;
+	}
 	while (i < newsize + 1)
-    {
+	{
 		*(new + i) = '\0';
-        i++;
-    }
+		i++;
+	}
 	if (ptr && size != 0)
 		free(ptr);
 	return (new);

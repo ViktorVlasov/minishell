@@ -3,38 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:43:21 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/21 20:36:13 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/26 17:50:33 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void error_message_rel_path(t_data *vars, int f_no_dir_and_exist, \
-							int f_have_rights)
+char	*check_relative_main(t_data *vars, char *path_part,
+	int *f_no_dir_and_exist, int *f_have_rights)
 {
-	if (f_no_dir_and_exist == 0)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(vars->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-	}
-	else if (f_have_rights == 0)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(vars->args[0], 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-	}
-}
-
-char *check_relative_main(t_data *vars, char *path_part, \
-							int *f_no_dir_and_exist, int *f_have_rights)
-{
-	char *check_path;
-	struct stat buf;
-	char *path_copy;
+	char		*check_path;
+	struct stat	buf;
+	char		*path_copy;
 
 	path_copy = ft_strdup(path_part);
 	check_path = NULL;
@@ -52,16 +35,16 @@ char *check_relative_main(t_data *vars, char *path_part, \
 	free(check_path);
 	free(path_copy);
 	check_path = NULL;
-	return (NULL); 
+	return (NULL);
 }
 
-char *check_relative(t_data *vars)
+char	*check_relative(t_data *vars)
 {
-	char **path;
-	int i;
-	char *check_path;
-	int f_no_dir_and_exist;
-	int f_have_rights;
+	char	**path;
+	int		i;
+	char	*check_path;
+	int		f_no_dir_and_exist;
+	int		f_have_rights;
 
 	f_have_rights = 0;
 	f_no_dir_and_exist = 0;
@@ -69,11 +52,13 @@ char *check_relative(t_data *vars)
 	i = 0;
 	while (path && path[i])
 	{
-		if ((check_path = check_relative_main(vars, path[i], &f_no_dir_and_exist, &f_have_rights)) != NULL)
+		if ((check_path = \
+		check_relative_main(vars, path[i], \
+		&f_no_dir_and_exist, &f_have_rights)) != NULL)
 		{
 			ft_free_array(&path);
 			return (check_path);
-		} 
+		}
 		i++;
 	}
 	error_message_rel_path(vars, f_no_dir_and_exist, f_have_rights);
@@ -82,10 +67,10 @@ char *check_relative(t_data *vars)
 	return (NULL);
 }
 
-int check_absolute(t_data *vars)
+int		check_absolute(t_data *vars)
 {
 	struct stat buf;
-	
+
 	if (stat(vars->args[0], &buf) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -107,13 +92,13 @@ int check_absolute(t_data *vars)
 		ft_putstr_fd(": Permission denied\n", 2);
 		return (126);
 	}
-	return 0;
+	return (0);
 }
 
-int check_commands(t_data *vars)
+int		check_commands(t_data *vars)
 {
 	char *relative_path;
-	
+
 	if (ft_strchr(vars->args[0], '/') != NULL)
 	{
 		if (check_absolute(vars))
@@ -124,22 +109,21 @@ int check_commands(t_data *vars)
 	if ((relative_path = check_relative(vars)))
 	{
 		free(vars->args[0]);
-		vars->args[0] = relative_path; 
+		vars->args[0] = relative_path;
 	}
 	else
 		return (1);
 	return (0);
 }
 
-int         ft_command(t_data *vars)
+int		ft_command(t_data *vars)
 {
 	pid_t	pid;
-	int		status;	
+	int		status;
 
 	status = 0;
-	// check_commands(vars);
 	if ((pid = fork()) < 0)
-		perror(NULL); // не форкнул
+		perror(NULL);
 	else if (pid == 0)
 	{
 		if (!check_commands(vars))

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error_message.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 22:28:08 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/23 22:56:29 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 18:09:47 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		error_message_unset(char *invalid_arg)
+int			error_message_unset(char *invalid_arg)
 {
 	ft_putstr_fd("minishell: unset: `", 2);
 	ft_putstr_fd(invalid_arg, 2);
@@ -20,7 +20,7 @@ int		error_message_unset(char *invalid_arg)
 	return (1);
 }
 
-int		error_message_exp(char *invalid_arg)
+int			error_message_exp(char *invalid_arg)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(invalid_arg, 2);
@@ -28,7 +28,7 @@ int		error_message_exp(char *invalid_arg)
 	return (1);
 }
 
-int	path_error(char *path)
+int			path_error(char *path)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
@@ -46,10 +46,10 @@ static int	ft_puterror(char *s)
 	return (1);
 }
 
-int        error_check(char *line)
+int			error_check(char *line)
 {
-	int     i;
-	int		first_after_space;
+	int	i;
+	int	first_after_space;
 
 	i = 0;
 	while (line[i] == ' ' && line[i] != '\0')
@@ -61,15 +61,15 @@ int        error_check(char *line)
 				in_commas(line, i, '\"') == 1 || in_screening(line, i) == 1)
 			continue;
 		else if (line[i] == ';' && line[i + 1] == ';')
-			return(ft_puterror(";;"));
+			return (ft_puterror(";;"));
 		else if (line[i] == ';' && i == first_after_space)
-			return(ft_puterror(";"));
+			return (ft_puterror(";"));
 		else if ((line[i] == '>' && line[i + 1] == '\0') || \
 			(line[i] == '>' && line[i + 1] == '>' && line[i + 2] == '\0') || \
 			(line[i] == '<' && line[i + 1] == '\0') || \
 			(line[i] == '<' && line[i + 1] == '<' && line[i + 2] == '\0'))
-			return(ft_puterror("newline"));
+			return (ft_puterror("newline"));
 		else if (line[i] == '|' && i == first_after_space)
-			return(ft_puterror("|"));
+			return (ft_puterror("|"));
 	return (0);
 }

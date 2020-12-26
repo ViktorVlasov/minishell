@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 21:36:50 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/21 20:17:19 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/26 18:01:24 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		valid_arg(char *arg, t_data *data)
 	if ((arg[0] == '\0') || (!ft_isalpha(arg[0]) && (arg[0] != '_')))
 	{
 		data->err_status = 1;
-		return (error_message_exp(arg));				
+		return (error_message_exp(arg));
 	}
 	while (arg[++i])
 		if (arg[i] == '=')
@@ -58,7 +58,7 @@ int		valid_arg(char *arg, t_data *data)
 		else
 		{
 			data->err_status = 1;
-			return (error_message_exp(arg));				
+			return (error_message_exp(arg));
 		}
 	return (0);
 }
@@ -76,16 +76,16 @@ int		ft_export_with_args(t_data *data)
 		if (ft_strchr(data->args[i], '=') != NULL)
 		{
 			name_variable = get_name_var_from_arg(data->args[i]);
-			if (find_elem_in_arrayStr(data->envp, name_variable, 1))
+			if (find_elem_in_arraystr(data->envp, name_variable, 1))
 				replace_elem_in_envp(data->envp, name_variable, data->args[i]);
 			else
-				data->envp = add_elem_in_arrayStr(data->envp, data->args[i]);
+				data->envp = add_elem_in_arraystr(data->envp, data->args[i]);
 			free(name_variable);
 		}
 		else
 		{
-			if (find_elem_in_arrayStr(data->envp, data->args[i], 0) == NULL)
-				data->envp = add_elem_in_arrayStr(data->envp, data->args[i]);
+			if (find_elem_in_arraystr(data->envp, data->args[i], 0) == NULL)
+				data->envp = add_elem_in_arraystr(data->envp, data->args[i]);
 		}
 	}
 	return (data->err_status == 1 ? 1 : 0);

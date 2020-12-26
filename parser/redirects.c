@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 23:01:49 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 16:08:20 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 18:21:27 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void		ft_red_worker(r_data *tmp_red, char *line, int *i, t_data *vars)
 
 char		*redirect_handler(t_data *vars, char *line)
 {
-	// int     redirect_counter;
 	r_data  *tmp_red;
 	char	*result;
 	int		i;

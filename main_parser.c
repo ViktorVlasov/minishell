@@ -54,7 +54,7 @@ int main(int argc, char **argv, char **envp)
     vars = ft_init(envp);
 
     //для дебагера!!!
-    // vars->envp = add_elem_in_arrayStr(vars->envp, "PATH=/Users/efumiko/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/efumiko/.brew/bin");
+    // vars->envp = add_elem_in_arraystr(vars->envp, "PATH=/Users/efumiko/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/efumiko/.brew/bin");
     
     init_structure(vars);
     

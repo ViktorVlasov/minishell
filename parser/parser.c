@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 15:48:43 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 18:01:24 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void        parse_command(char *command, t_data *vars)
 		buffer = pars_one_arg(&i, command, vars);
 		if (buffer)
 		{
-			vars->args = add_elem_in_arrayStr(vars->args, buffer);
+			vars->args = add_elem_in_arraystr(vars->args, buffer);
 			free(buffer);
 			ready_array_size += 1;
 		}
@@ -155,7 +155,7 @@ void        start(char *line, t_data *vars)
 //     if (args[i] == ">>" && args[i+1])
 //     {
 //         names_files = ft_realloc_2arr(names_files, get_amount_line(names_files), get_amount_line(names_files) + 1);
-//         names_files = add_elem_in_arrayStr(names_files, args[i+1]);
+//         names_files = add_elem_in_arraystr(names_files, args[i+1]);
 //     }
 // }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 15:12:40 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 18:01:24 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ char		**semicolon(char *line, char parse_symb);
 char		**ft_realloc_2arr(char **arr, int prev_size, int size);
 int			get_amount_line(char **lines);
 void		*ft_realloc(void *ptr, int size, int newsize);
-char		**add_elem_in_arrayStr(char **src, char *elem);
-char		**delete_elem_in_arrayStr(char **src, char *elem, int boolFindPart);
-char		*find_elem_in_arrayStr(char **src, char *elem, int boolFindPart);
+char		**add_elem_in_arraystr(char **src, char *elem);
+char		**delete_elem_in_arraystr(char **src, char *elem, int boolFindPart);
+char		*find_elem_in_arraystr(char **src, char *elem, int boolFindPart);
 char		*get_value_from_var(char **envp, char *name_var);
 char		**ft_strdup_2arr(char **arr);
 void		ft_free_array(char ***ar);
@@ -86,6 +86,8 @@ int			error_message_unset(char *invalid_arg);
 int			error_message_exp(char *invalid_arg);
 int			path_error(char *path);
 int			error_check(char *line);
+void		error_message_rel_path(t_data *vars, int f_no_dir_and_exist, \
+							int f_have_rights)
 
 /* 
 * Commands
