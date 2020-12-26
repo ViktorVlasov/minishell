@@ -6,7 +6,7 @@
 /*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 23:01:49 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/24 00:23:02 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 16:08:20 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,49 +51,50 @@ int			check_for_all(char *line, int i)
 	return (1);
 }
 
-void		ft_one_red(int *i, r_data *tmp_red, char *line)
+void		ft_red_parse(int *i, r_data *tmp_red, char *line, t_data *vars) // обрабатывает < и >
 {
 	int		iterator;
-	char	*tmp;
+	char	*tmp_name;
+	int		zero;
+
+	zero = 0;
 	iterator = *i;
-	tmp_red->redir_type = add_char(tmp_red->redir_type, line[iterator]);
-	iterator++;
+	tmp_name = NULL;
 	while (line[iterator] == ' ')
 		iterator++;
-	while (line[iterator] != ' ')
+	while (line[iterator] != ' ' && line[iterator] != '\0')
 	{
-		tmp_red->file_name = add_char(tmp_red->file_name, line[iterator]);
+		tmp_name = add_char(tmp_name, line[iterator]);
 		iterator++;
 	}
-	tmp = tmp_red->file_name; //почистить???
-	// tmp_red->file_name = pars_one_arg() надо обработать переменные в имени файла??
 	*i = iterator;
+	tmp_red->file_name = pars_one_arg(&zero, tmp_name, vars);
+	free(tmp_name);
 }
 
-void		ft_two_red()
-{
-	//
-}
-
-void		ft_red_worker(r_data *tmp_red, char *line, int *i)
+void		ft_red_worker(r_data *tmp_red, char *line, int *i, t_data *vars)
 {
 	if (check_for_all(line, *i) == 0)
 	{
-		if (check_for_all(line, *i + 1) == 0)
-			ft_two_red();
-		else
-			ft_one_red(i, tmp_red, line);
+		tmp_red->redir_type = add_char(tmp_red->redir_type, line[*i]);
+		if (line[*i] == '>' && line[*i + 1] == '>' && check_for_all(line, *i + 1) == 0)
+		{
+			tmp_red->redir_type = add_char(tmp_red->redir_type, line[*i + 1]);
+			*i += 1;
+		}
+		*i += 1;
+		ft_red_parse(i, tmp_red, line, vars);
 	}
 }
 
-void redirect_handler(t_data *vars, char *line)
+char		*redirect_handler(t_data *vars, char *line)
 {
-	int     redirect_counter;
-	int     pipe_commands_ammount;
+	// int     redirect_counter;
 	r_data  *tmp_red;
 	char	*result;
 	int		i;
 	int		flag_quote;
+	char	*tmp_for_free;
 
 	i = 0;
 	flag_quote = 0;
@@ -103,11 +104,19 @@ void redirect_handler(t_data *vars, char *line)
 		if (line[i] == '>' || line[i] == '<')
 		{
 			tmp_red = ft_init_red();
-			ft_red_worker(tmp_red, line, &i);
+			ft_red_worker(tmp_red, line, &i, vars);
 			ft_redadd_back(&vars->redirects, tmp_red);
 		}
-		result = add_char(result, line[i]);
-		i++;
+		if (line[i] != '\0') 
+		{
+			result = add_char(result, line[i]);
+			i++;
+		}
 	}
+	tmp_for_free = result;
+	result = ft_strtrim(result, " ");
+	free(tmp_for_free);
 	return (result); 
 }
+
+//ЕСЛИ СТРОКА file name пустая - bash: $test: ambiguous redirect

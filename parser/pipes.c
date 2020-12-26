@@ -6,7 +6,7 @@
 /*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 22:54:33 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/23 23:00:26 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 15:17:31 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int        pipe_handler(char *command, t_data *vars)
 	int     pipe_counter;
 	int     pipe_commands_ammount;
 	t_data  *tmp_pipe;
+	char	*tmp_for_free;
 
 	pipe_counter = 1;
 	parsed_by_pipe = semicolon(command, '|');
@@ -44,11 +45,12 @@ int        pipe_handler(char *command, t_data *vars)
 	{
 		tmp_pipe = ft_init(vars->envp);
 		
-		// redirect_handler(tmp_pipe, parsed_by_pipe[pipe_counter - 1]);
-		
+		tmp_for_free = parsed_by_pipe[pipe_counter - 1];
+		parsed_by_pipe[pipe_counter - 1] = redirect_handler(tmp_pipe, parsed_by_pipe[pipe_counter - 1]); 
 		parse_command(parsed_by_pipe[pipe_counter - 1], tmp_pipe);
 		pipe_counter++;
 		ft_pipeadd_back(&vars, tmp_pipe);
+		free(tmp_for_free);
 	}
 	ft_free_array(&parsed_by_pipe); 
 	return (pipe_counter == 1 ? 0 : 1);      

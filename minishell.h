@@ -6,7 +6,7 @@
 /*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/24 00:16:17 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 15:12:40 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ int         in_commas(char *line, int symb_id, char comma_type);
 int			pipe_handler(char *command, t_data *vars);
 void        cmd_exec(t_data *vars);
 char        *pars_one_arg(int *i, char *line, t_data *vars);
+void		free_listof_pipes(t_data **lst);
+void        take_out_spaces(char **parsed_by_semicolon, int commands_amount);
+void        parse_command(char *command, t_data *vars);
+char		*redirect_handler(t_data *vars, char *line);
 
 /*
 * Error_messages

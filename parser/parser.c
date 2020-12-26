@@ -6,7 +6,7 @@
 /*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/23 23:02:48 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/26 15:48:43 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void        start(char *line, t_data *vars)
 	char    **parsed_by_semicolon;
 	int     commands_amount;
 	int     counter;
+	char	*tmp_for_free;
 
 	counter = 0;
 	if (error_check(line) == 1)
@@ -113,8 +114,10 @@ void        start(char *line, t_data *vars)
 	{
 		if (!pipe_handler(parsed_by_semicolon[counter], vars))
 		{
-			//redirect_handler();
+			tmp_for_free = parsed_by_semicolon[counter];
+			parsed_by_semicolon[counter] = redirect_handler(vars, parsed_by_semicolon[counter]);
 			parse_command(parsed_by_semicolon[counter], vars);
+			free(tmp_for_free);
 		}
 		cmd_exec(vars);
 		free_structure(vars);
