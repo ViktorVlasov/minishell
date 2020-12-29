@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 23:01:49 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 18:21:27 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/26 18:38:31 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,3 @@ char		*redirect_handler(t_data *vars, char *line)
 	free(tmp_for_free);
 	return (result); 
 }
-
-//ЕСЛИ СТРОКА file name пустая - bash: $test: ambiguous redirect

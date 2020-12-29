@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 18:01:24 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/28 16:02:29 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <stdio.h>
+# include <fcntl.h>
 
 typedef struct      red_data
 {
     char			*file_name;
 	char			*redir_type;
 	struct red_data	*next;
+	int				red_fd;
 }                   r_data;
 
 typedef struct      	s_data
@@ -87,7 +89,7 @@ int			error_message_exp(char *invalid_arg);
 int			path_error(char *path);
 int			error_check(char *line);
 void		error_message_rel_path(t_data *vars, int f_no_dir_and_exist, \
-							int f_have_rights)
+							int f_have_rights);
 
 /* 
 * Commands

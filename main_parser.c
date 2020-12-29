@@ -45,11 +45,12 @@ int main(int argc, char **argv, char **envp)
     //echo ; ech'ab    co'   23
     argc = 0;
     argv = NULL;
-    char    *line = "echo tttt >> test111 >> test33 123 | echo 123 > test222 | grep \"t\" < test222";
+    // char    *line = "echo tttt >> test111 >> test33 123 | echo 123 > test222 | grep \"t\" < test222";
     // char    *line = "export ;export abrakadabra; unset abrakadabra; export";
     // char    *line = "   echo abc | grep "abc";export abc=123;export sdasd; export"; //WTF????????????????????????????????????????????????
     // char    *line = "echo 1111111111111111111; echo 12abc=123';' echo12 sdasd"; 
-    // char    *line;
+    char    *line;
+	// char    *line = "grep \"abc\" < test1 >> test2 | echo 123 | echo 444";
     t_data  *vars;
     vars = ft_init(envp);
 
@@ -59,16 +60,16 @@ int main(int argc, char **argv, char **envp)
     init_structure(vars);
     
     // get_next_line(0, &line);
-    start(line, vars);
+    // start(line, vars);
     // free(line);
     
-    // ft_putstr_fd("minishell: ", 1);
-    // while (get_next_line(0, &line) > 0)
-    // {
-    //     start(line, vars);
-    //     free(line);
-    //     ft_putstr_fd("minishell: ", 1);
-    // }
+    ft_putstr_fd("minishell: ", 1);
+    while (get_next_line(0, &line) > 0)
+    {
+        start(line, vars);
+        free(line);
+        ft_putstr_fd("minishell: ", 1);
+    }
 
     ft_free_array(&vars->envp);
     free(vars);
