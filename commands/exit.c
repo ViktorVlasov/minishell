@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 22:11:55 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/26 17:41:37 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/29 12:57:09 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int			ft_exit(t_data *data, int is_pipe)
 			code = ft_atoi(data->args[1]);
 	}
 	if (is_pipe == 0)
-		exit(code % 255);
+		exit(code % 256);
 	return (0);
 }
