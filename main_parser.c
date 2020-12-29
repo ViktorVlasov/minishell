@@ -49,8 +49,10 @@ int main(int argc, char **argv, char **envp)
     // char    *line = "export ;export abrakadabra; unset abrakadabra; export";
     // char    *line = "   echo abc | grep "abc";export abc=123;export sdasd; export"; //WTF????????????????????????????????????????????????
     // char    *line = "echo 1111111111111111111; echo 12abc=123';' echo12 sdasd"; 
-    // char    *line;
-	char    *line = "exit 9854679547698675497885947";
+    char    *line;
+	//char    *line = "grep \"abc\" < test_abc >> test_output | echo 123 > test_out123 >> test_out_f123 | env >> env.txt | export >> env.txt";
+    
+    //char *line = "grep abc < test_abc >> te | echo 123 > test_out123 >> test_out_f123 | env >> env.txt";
     t_data  *vars;
     vars = ft_init(envp);
 
@@ -59,17 +61,17 @@ int main(int argc, char **argv, char **envp)
     
     init_structure(vars);
     
-    start(line, vars);
+    //start(line, vars);
     
 
 
-    // ft_putstr_fd("minishell: ", 1);
-    // while (get_next_line(0, &line) > 0)
-    // {
-    //     start(line, vars);
-    //     free(line);
-    //     ft_putstr_fd("minishell: ", 1);
-    // }
+    ft_putstr_fd("minishell: ", 1);
+    while (get_next_line(0, &line) > 0)
+    {
+        start(line, vars);
+        free(line);
+        ft_putstr_fd("minishell: ", 1);
+    }
 
     ft_free_array(&vars->envp);
     free(vars);
