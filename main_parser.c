@@ -36,40 +36,32 @@ void init_structure(t_data *vars)
     vars->fd1 = dup(1);    
 }
 
-
-int main(int argc, char **argv, char **envp)
-{
-    //char **args_for_commands;
-    //OS_ACTIVITY_DT_MODE=enable
-    // char    *line = "echo '123\'";
-    //echo ; ech'ab    co'   23
-    (void)argc;
-    (void)argv;
-    // char    *line = "echo tttt >> test111 >> test33 123 | echo 123 > test222 | grep \"t\" < test222";
+//OS_ACTIVITY_DT_MODE=enable
+// char    *line = "echo tttt >> test111 >> test33 123 | echo 123 > test222 | grep \"t\" < test222";
     // char    *line = "export ;export abrakadabra; unset abrakadabra; export";
     // char    *line = "   echo abc | grep "abc";export abc=123;export sdasd; export"; //WTF????????????????????????????????????????????????
     // char    *line = "echo 1111111111111111111; echo 12abc=123';' echo12 sdasd"; 
-    // char    *line;
-	char    *line = "exit 9854679547698675497885947";
+	// char	*line = ">$abc; ls";
+	// char    *line = "grep abc < test_abc >> te | echo 123 > test_out123 >> test_outf123 | env >> env.txt";
+
+    // start(line, vars);
+
+int main(int argc, char **argv, char **envp)
+{
+    (void)argc;
+    (void)argv;
+    
+	char    *line;
     t_data  *vars;
-    vars = ft_init(envp);
-
-    //для дебагера!!!
-    // vars->envp = add_elem_in_arraystr(vars->envp, "PATH=/Users/efumiko/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/efumiko/.brew/bin");
-    
+    vars = ft_init(envp);    
     init_structure(vars);
-    
-    start(line, vars);
-    
-
-
-    // ft_putstr_fd("minishell: ", 1);
-    // while (get_next_line(0, &line) > 0)
-    // {
-    //     start(line, vars);
-    //     free(line);
-    //     ft_putstr_fd("minishell: ", 1);
-    // }
+    ft_putstr_fd("minishell: ", 1);
+    while (get_next_line(0, &line) > 0)
+    {
+        start(line, vars);
+        free(line);
+        ft_putstr_fd("minishell: ", 1);
+    }
 
     ft_free_array(&vars->envp);
     free(vars);

@@ -24,7 +24,7 @@ int			check_file_names(t_data *vars)
 	{
 		if (!vars->redirects->file_name)
 		{
-			ft_putstr_fd("minishell: ambiguous redirect", 2);
+			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
 			return (1);
 		}
 		tmp = tmp->next;
@@ -80,9 +80,13 @@ int			do_redirects(t_data *vars)
 
 void	do_cmd(t_data *vars, int is_pipe)
 {
+	
 	if (vars->redirects)
 	 	if ((vars->err_status = do_redirects(vars)) == 1)
+		{
+			free_listof_redirects(&vars->redirects);
 			return ;
+		}
 	if (vars->args && vars->args[0])
 	{
 		if (ft_strcmp(vars->args[0], "pwd") == 0)
@@ -102,7 +106,7 @@ void	do_cmd(t_data *vars, int is_pipe)
 		else
 			vars->err_status = ft_command(vars);
 	}
-	//?????
+	free_listof_redirects(&vars->redirects);
 }
 
 // grep "abc" < test1 >> test2 | echo 123 | echo 444
