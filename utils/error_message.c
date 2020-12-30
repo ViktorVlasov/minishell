@@ -1,12 +1,12 @@
-;;/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   error_message.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 22:28:08 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/28 18:27:14 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/31 00:45:15 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			path_error(char *path)
 	return (1);
 }
 
-static int	ft_puterror(char *s)
+int			ft_puterror(char *s)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	ft_putstr_fd(s, 2);

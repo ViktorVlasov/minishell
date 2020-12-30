@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:40:19 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/26 18:07:23 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/30 23:55:59 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,40 @@ void	replace_elem_in_envp(char **src, char *name_variable, char *replace)
 		}
 		i++;
 	}
+}
+
+int		in_commas(char *line, int symb_id, char comma_type)
+{
+	int	check1;
+	int	check2;
+	int	i;
+	int	line_len;
+
+	i = 0;
+	check1 = -1;
+	check2 = -1;
+	line_len = ft_strlen(line);
+	while (i < line_len)
+	{
+		if (line[i] == comma_type && check1 != -1)
+			check2 = i;
+		else if (line[i] == comma_type)
+			check1 = i;
+		if (check1 != -1 && check2 != -1)
+		{
+			if (symb_id > check1 && symb_id < check2)
+				return (1);
+			check1 = -1;
+			check2 = -1;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int		in_screening(char *line, int symb_id)
+{
+	if (line[symb_id - 1] == '\\')
+		return (1);
+	return (0);
 }

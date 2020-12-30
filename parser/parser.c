@@ -6,32 +6,32 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 18:01:24 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/31 00:17:20 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
-char        *pars_one_arg(int *i, char *line, t_data *vars)
+char		*pars_one_arg(int *i, char *line, t_data *vars)
 {
-	char    *buffer;
-	char    *spec_symbols;
-	
+	char	*buffer;
+	char	*spec_symbols;
+
 	spec_symbols = "$'\"";
 	buffer = NULL;
 	while (line[*i] != ' ' && line[*i] != '\0')
 	{
 		if (ft_strchr(spec_symbols, line[*i]) == NULL)
 		{
-			if(line[*i] == '\\')
+			if (line[*i] == '\\')
 				*i += 1;
 			buffer = add_char(buffer, line[*i]);
 		}
 		else if (line[*i] == '\'')
 			buffer = one_comma_worker(i, buffer, line);
 		else if (line[*i] == '\"')
-			buffer = two_comma_worker(i, buffer, line ,vars);
+			buffer = two_comma_worker(i, buffer, line, vars);
 		else if (line[*i] == '$')
 			buffer = variable_handler(line, buffer, i, vars);
 		if (line[*i] != '\0')
@@ -42,12 +42,12 @@ char        *pars_one_arg(int *i, char *line, t_data *vars)
 	return (buffer);
 }
 
-void        parse_command(char *command, t_data *vars)
+void		parse_command(char *command, t_data *vars)
 {
-	int     i;
-	int     command_length;
-	char    *buffer;
-	int     ready_array_size;
+	int		i;
+	int		command_length;
+	char	*buffer;
+	int		ready_array_size;
 
 	i = 0;
 	ready_array_size = 0;
@@ -67,11 +67,10 @@ void        parse_command(char *command, t_data *vars)
 	}
 }
 
-
-void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
+void		take_out_spaces(char **parsed_by_semicolon, int commands_amount)
 {
-	char    *tmp;
-	int     i;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	while (i < commands_amount)
@@ -83,79 +82,43 @@ void        take_out_spaces(char **parsed_by_semicolon, int commands_amount)
 	}
 }
 
-void free_structure(t_data *vars)
+void		free_structure(t_data *vars)
 {
 	if (vars)
 	{
 		if (vars->args)
 			ft_free_array(&vars->args);
 		vars->args = NULL;
-		free_listof_pipes(&vars->pipe); //добавить сюда читску редиректов
+		free_listof_pipes(&vars->pipe);
 		vars->pipe = NULL;
-		// free_listof_redirects(&vars->redirects);  !!!!!!!!!!
-		// vars->redirects = NULL;
 	}
 }
 
-void        start(char *line, t_data *vars)
+void		start(char *line, t_data *vars)
 {
-	char    **parsed_by_semicolon;
-	int     commands_amount;
-	int     counter;
+	char	**par_b_sem;
+	int		commands_amount;
+	int		counter;
 	char	*tmp_for_free;
 
 	counter = 0;
 	if (error_check(line) == 1)
 		return ;
-	parsed_by_semicolon = semicolon(line, ';');
-	commands_amount = get_amount_line(parsed_by_semicolon);
-	take_out_spaces(parsed_by_semicolon, commands_amount);
+	par_b_sem = semicolon(line, ';');
+	commands_amount = get_amount_line(par_b_sem);
+	take_out_spaces(par_b_sem, commands_amount);
 	while (counter < commands_amount)
 	{
-		if (!pipe_handler(parsed_by_semicolon[counter], vars))
+		if (!pipe_handler(par_b_sem[counter], vars))
 		{
-			tmp_for_free = parsed_by_semicolon[counter];
-			parsed_by_semicolon[counter] = redirect_handler(vars, parsed_by_semicolon[counter]);
-			parse_command(parsed_by_semicolon[counter], vars);
+			tmp_for_free = par_b_sem[counter];
+			par_b_sem[counter] = redirect_handler(vars, par_b_sem[counter]);
+			parse_command(par_b_sem[counter], vars);
 			free(tmp_for_free);
 		}
 		cmd_exec(vars);
 		free_structure(vars);
 		counter++;
 	}
-	ft_free_array(&parsed_by_semicolon);
+	ft_free_array(&par_b_sem);
 }
-
-
-
-
-// int i = 0;
-// int count_redir = 0;
-// while (args[i])
-// {
-//     if (args[i] == ">>" && args[i+1])
-//         count_redir++;
-// }
-
-// i = 0;
-// while (args[i])
-// {
-//     if (args[i] == ">>" && args[i + 1])
-//         fd = open() // создаем файл
-//         count_redir--;
-//         if (count_redir == 1) // 1 or 0???
-//             dup2() // перенаправляем стандартный вывод в файл
-//     i++;
-// }
-
-// char **names_files;
-
-// while (args[i])
-// {
-//     if (args[i] == ">>" && args[i+1])
-//     {
-//         names_files = ft_realloc_2arr(names_files, get_amount_line(names_files), get_amount_line(names_files) + 1);
-//         names_files = add_elem_in_arraystr(names_files, args[i+1]);
-//     }
-// }
-

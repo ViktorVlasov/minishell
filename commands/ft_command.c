@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:43:21 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/30 16:17:41 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/30 23:54:37 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int		check_commands(t_data *vars)
 
 int		ft_command(t_data *vars)
 {
-	// pid_t	pid;
 	int		status;
 
 	status = 0;

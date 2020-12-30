@@ -6,61 +6,24 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/30 11:24:18 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/31 00:26:36 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		in_commas(char *line, int symb_id, char comma_type)
-{
-	int	check1;
-	int	check2;
-	int	i;
-	int	line_len;
-
-	i = 0;
-	check1 = -1;
-	check2 = -1;
-	line_len = ft_strlen(line);
-	while (i < line_len)
-	{
-		if (line[i] == comma_type && check1 != -1)
-			check2 = i;
-		else if (line[i] == comma_type)
-			check1 = i;
-		if (check1 != -1 && check2 != -1)
-		{
-			if (symb_id > check1 && symb_id < check2)
-				return (1);
-			check1 = -1;
-			check2 = -1;
-		}
-		i++;
-	}
-	return (0);
-}
-
-int		in_screening(char *line, int symb_id)
-{
-	if (line[symb_id - 1] == '\\')
-		return (1);
-	return (0);
-}
-
-void	semicolon_realloc(sem_data *for_semicolon, int counter, int i)
+void	semicolon_realloc(t_semdata *for_semicolon, int counter, int i)
 {
 	if (counter == 0)
 	{
-		if ((for_semicolon->parsed_by_semicolon[counter] = (char *)malloc(i + 1)) == NULL)
-			return ;
+		for_semicolon->parsed_by_semicolon[counter] = (char *)malloc(i + 1);
 		ft_strlcpy(for_semicolon->parsed_by_semicolon[counter], \
 							for_semicolon->line, i + 1);
 	}
 	else
 	{
-		if ((for_semicolon->parsed_by_semicolon[counter] = (char *)malloc(i - for_semicolon->previous_semicolon_position)) == NULL)
-			return ;
+		for_semicolon->parsed_by_semicolon[counter] = (char *)malloc(i -\
+			for_semicolon->previous_semicolon_position);
 		ft_strlcpy(for_semicolon->parsed_by_semicolon[counter], \
 			for_semicolon->line + \
 			for_semicolon->previous_semicolon_position + 1, \
@@ -68,7 +31,7 @@ void	semicolon_realloc(sem_data *for_semicolon, int counter, int i)
 	}
 }
 
-void	when_sem_met(sem_data *for_sem, int i, int *counter, char parse_symb)
+void	when_sem_met(t_semdata *for_sem, int i, int *counter, char parse_symb)
 {
 	if (for_sem->line[i] == parse_symb)
 	{
@@ -108,7 +71,7 @@ int		args_counter(int str_len, char parse_symb, char *line)
 
 char	**semicolon(char *line, char parse_symb)
 {
-	sem_data	for_semicolon;
+	t_semdata	for_semicolon;
 	int			i;
 	int			counter;
 	int			line_len;

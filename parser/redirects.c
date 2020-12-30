@@ -6,74 +6,22 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 23:01:49 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/30 11:30:31 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/31 00:27:59 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_listof_redirects(r_data **lst)
-{
-	r_data	*tmp;
-
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		if ((*lst)->file_name)
-			free((*lst)->file_name);
-		if ((*lst)->redir_type)
-			free((*lst)->redir_type);
-		if ((*lst)->red_fd >= 0)
-			close((*lst)->red_fd);
-		tmp = *lst;
-		*lst = tmp->next;
-		free(tmp);
-	}
-	*lst = NULL;
-}
-
-void	ft_redadd_back(r_data **lst, r_data *new)
-{
-	r_data	*lst_back;
-
-	if (!lst || !new)
-		return ;
-	if (*lst)
-	{
-		lst_back = *lst;
-		while (lst_back->next)
-			lst_back = lst_back->next;
-		lst_back->next = new;
-	}
-	else
-		*lst = new;
-}
-
-r_data	*ft_init_red(void)
-{
-	r_data *new;
-
-	new = (r_data*)malloc(sizeof(r_data));
-	if (new == NULL)
-		return (NULL);
-    new->file_name = NULL;
-	new->next = NULL;
-	new->redir_type = NULL;
-	new->red_fd = -2;
-	return (new);
-}
-
 int			check_for_all(char *line, int i)
 {
 	if (in_commas(line, i, '\'') == 0 &&\
-         in_commas(line, i, '\"') == 0 &&\
-            in_screening(line, i) == 0)
+			in_commas(line, i, '\"') == 0 &&\
+				in_screening(line, i) == 0)
 		return (0);
 	return (1);
 }
 
-void		ft_red_parse(int *i, r_data *tmp_red, char *line, t_data *vars) // обрабатывает < и >
+void		ft_red_parse(int *i, t_rdata *tmp_red, char *line, t_data *vars)
 {
 	int		iterator;
 	char	*tmp_name;
@@ -94,12 +42,13 @@ void		ft_red_parse(int *i, r_data *tmp_red, char *line, t_data *vars) // обр�
 	free(tmp_name);
 }
 
-void		ft_red_worker(r_data *tmp_red, char *line, int *i, t_data *vars)
+void		ft_red_worker(t_rdata *tmp_red, char *line, int *i, t_data *vars)
 {
 	if (check_for_all(line, *i) == 0)
 	{
 		tmp_red->redir_type = add_char(tmp_red->redir_type, line[*i]);
-		if (line[*i] == '>' && line[*i + 1] == '>' && check_for_all(line, *i + 1) == 0)
+		if (line[*i] == '>' && line[*i + 1] == '>' \
+							&& check_for_all(line, *i + 1) == 0)
 		{
 			tmp_red->redir_type = add_char(tmp_red->redir_type, line[*i + 1]);
 			*i += 1;
@@ -111,7 +60,7 @@ void		ft_red_worker(r_data *tmp_red, char *line, int *i, t_data *vars)
 
 char		*redirect_handler(t_data *vars, char *line)
 {
-	r_data  *tmp_red;
+	t_rdata	*tmp_red;
 	char	*result;
 	int		i;
 	char	*tmp_for_free;
@@ -119,14 +68,14 @@ char		*redirect_handler(t_data *vars, char *line)
 	i = 0;
 	result = NULL;
 	while (line[i] != '\0')
-	{		
+	{
 		if (line[i] == '>' || line[i] == '<')
 		{
 			tmp_red = ft_init_red();
 			ft_red_worker(tmp_red, line, &i, vars);
 			ft_redadd_back(&vars->redirects, tmp_red);
 		}
-		if (line[i] != '\0') 
+		if (line[i] != '\0')
 		{
 			result = add_char(result, line[i]);
 			i++;
@@ -135,5 +84,5 @@ char		*redirect_handler(t_data *vars, char *line)
 	tmp_for_free = result;
 	result = ft_strtrim(result, " ");
 	free(tmp_for_free);
-	return (result); 
+	return (result);
 }
