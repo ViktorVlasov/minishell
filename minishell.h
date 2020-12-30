@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/30 11:23:56 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/30 16:17:25 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 typedef struct      red_data
 {
@@ -39,6 +40,8 @@ typedef struct      	s_data
 	int					fd0;
 	int					fd1;
 	r_data				*redirects;
+	pid_t				pid;
+	int					signal;
 }                   	t_data;
 
 typedef struct      semicolon_data
@@ -47,7 +50,6 @@ typedef struct      semicolon_data
 	char    		**parsed_by_semicolon;
 	char 			*line;
 }                   sem_data;
-
 
 void        start(char *line, t_data *vars);
 char        *add_char(char *str, char symb);

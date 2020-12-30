@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:43:21 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/26 17:50:33 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/30 16:17:41 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,13 @@ int		check_commands(t_data *vars)
 
 int		ft_command(t_data *vars)
 {
-	pid_t	pid;
+	// pid_t	pid;
 	int		status;
 
 	status = 0;
-	if ((pid = fork()) < 0)
+	if ((vars->pid = fork()) < 0)
 		perror(NULL);
-	else if (pid == 0)
+	else if (vars->pid == 0)
 	{
 		if (!check_commands(vars))
 			execve(vars->args[0], vars->args, vars->envp);
@@ -133,5 +133,11 @@ int		ft_command(t_data *vars)
 	wait(&status);
 	if (WIFEXITED(status) != 0)
 		status = WEXITSTATUS(status);
+	vars->pid = 0;
+	if (vars->signal == 1)
+	{
+		vars->signal = 0;
+		status = vars->err_status;
+	}
 	return (status);
 }

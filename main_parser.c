@@ -15,6 +15,8 @@
 #include <errno.h>
 #include <stdio.h>
 
+t_data *vars;
+
 t_data	*ft_init(char **content)
 {
 	t_data *new;
@@ -27,6 +29,8 @@ t_data	*ft_init(char **content)
 	new->pipe = NULL;
 	new->redirects = NULL;
     new->err_status = 0;
+	new->pid = 0;
+	new->signal = 0;
 	return (new);
 }
 
@@ -46,25 +50,108 @@ void init_structure(t_data *vars)
 
     // start(line, vars);
 
+
+void	sig_int(int sig)
+{
+	(void)sig;
+    if (vars->pid == 0)
+	{
+		ft_putstr_fd("\b\b  ", 2);
+		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("minishell: ", 2);
+		vars->err_status = 1;
+	}
+	else
+	{
+		ft_putstr_fd("\n", 2);
+		vars->signal = 1;
+		vars->err_status = 130;
+	}
+}
+
+void	sig_quit(int code)
+{
+	if (vars->pid != 0)
+	{
+		ft_putstr_fd("Quit: ", 2);
+		ft_putnbr_fd(code, 2);
+		ft_putchar_fd('\n', 2);
+		vars->err_status = 131;
+		vars->signal = 1;
+	}
+	else
+		ft_putstr_fd("\b\b  \b\b", 2);
+}
+
 int main(int argc, char **argv, char **envp)
 {
     (void)argc;
     (void)argv;
     
-	char    *line = "pwd | pwd | pwd | pwd | pwd | pwd | pwd | pwd; export ;export abrakadabra; unset abrakadabra; export; env; pwd; echo \"abc\"; ls -la; cd .; grep \"abc\" < test_abc >> test_output | echo 123 > test_out123 >> test_out_f123 | env >> env.txt | export >> env.txt";
+	char	*line;
+	// char    *line = "pwd | pwd | pwd | pwd | pwd | pwd | pwd | pwd; export ;export abrakadabra; unset abrakadabra; export; env; pwd; echo \"abc\"; ls -la; cd .; grep \"abc\" < test_abc >> test_output | echo 123 > test_out123 >> test_out_f123 | env >> env.txt | export >> env.txt";
     // | echo 123 > test_out123 >> test_out_f123 | env >> env.txt | export >> env.txt";
-    t_data  *vars;
+    
+	// t_data  *vars;
     vars = ft_init(envp);    
     init_structure(vars);
-    start(line, vars);
-    // ft_putstr_fd("minishell: ", 1);
-    // while (get_next_line(0, &line) > 0)
-    // {
-    //     start(line, vars);
-    //     free(line);
-    //     ft_putstr_fd("minishell: ", 1);
-    // }
+    // start(line, vars);
+
+	signal(SIGQUIT, &sig_quit);
+	signal(SIGINT, &sig_int);
+    ft_putstr_fd("minishell: ", 1);
+    while (get_next_line(0, &line) > 0)
+    {
+        start(line, vars);
+        free(line);
+        ft_putstr_fd("minishell: ", 1);
+    }
 
     ft_free_array(&vars->envp);
     free(vars);
 }
+
+// cclaude minishell
+
+// void	sig_int(int code)
+// {
+// 	(void)code;
+// 	if (g_sig.pid == 0)
+// 	{
+// 		ft_putstr_fd("\b\b  ", STDERR);
+// 		ft_putstr_fd("\n", STDERR);
+// 		ft_putstr_fd("\033[0;36m\033[1m🤬 minishell ▸ \033[0m", STDERR);
+// 		g_sig.exit_status = 1;
+// 	}
+// 	else
+// 	{
+// 		ft_putstr_fd("\n", STDERR);
+// 		g_sig.exit_status = 130;
+// 	}
+// 	g_sig.sigint = 1;
+// }
+
+// void	sig_quit(int code)
+// {
+// 	char	*nbr;
+
+// 	nbr = ft_itoa(code);
+// 	if (g_sig.pid != 0)
+// 	{
+// 		ft_putstr_fd("Quit: ", STDERR);
+// 		ft_putendl_fd(nbr, STDERR);
+// 		g_sig.exit_status = 131;
+// 		g_sig.sigquit = 1;
+// 	}
+// 	else
+// 		ft_putstr_fd("\b\b  \b\b", STDERR);
+// 	ft_memdel(nbr);
+// }
+
+// void	sig_init(void)
+// {
+// 	g_sig.sigint = 0;
+// 	g_sig.sigquit = 0;
+// 	g_sig.pid = 0;
+// 	g_sig.exit_status = 0;
+// }

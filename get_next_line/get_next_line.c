@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 13:44:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/11/28 22:36:57 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/30 17:19:56 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int				get_next_line(int fd, char **line)
 	while (!p && (was_read = (int)read(fd, buf, BUFFER_SIZE)))
 	{
 		buf[was_read] = '\0';
+		//(was_read == 0 || buf[was_read - 1] != '\n') ? printf("  \b\b") : 0; //???
 		if ((p = ft_strchr(buf, '\n')))
 		{
 			*p = '\0';
