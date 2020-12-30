@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:45:02 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/29 12:27:20 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/30 11:23:56 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct      semicolon_data
     int     		previous_semicolon_position;
 	char    		**parsed_by_semicolon;
 	char 			*line;
-	char    		*rem;
 }                   sem_data;
 
 
@@ -80,6 +79,7 @@ void		free_listof_pipes(t_data **lst);
 void        take_out_spaces(char **parsed_by_semicolon, int commands_amount);
 void        parse_command(char *command, t_data *vars);
 char		*redirect_handler(t_data *vars, char *line);
+void		free_listof_redirects(r_data **lst);
 
 /*
 * Error_messages

@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 21:40:45 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 18:20:21 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/30 11:24:18 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,15 @@ void	semicolon_realloc(sem_data *for_semicolon, int counter, int i)
 {
 	if (counter == 0)
 	{
-		for_semicolon->parsed_by_semicolon[counter] = (char *)malloc(i + 1);
+		if ((for_semicolon->parsed_by_semicolon[counter] = (char *)malloc(i + 1)) == NULL)
+			return ;
 		ft_strlcpy(for_semicolon->parsed_by_semicolon[counter], \
 							for_semicolon->line, i + 1);
 	}
 	else
 	{
-		for_semicolon->parsed_by_semicolon[counter] = \
-				(char *)malloc(i - for_semicolon->previous_semicolon_position);
+		if ((for_semicolon->parsed_by_semicolon[counter] = (char *)malloc(i - for_semicolon->previous_semicolon_position)) == NULL)
+			return ;
 		ft_strlcpy(for_semicolon->parsed_by_semicolon[counter], \
 			for_semicolon->line + \
 			for_semicolon->previous_semicolon_position + 1, \
@@ -76,10 +77,6 @@ void	when_sem_met(sem_data *for_sem, int i, int *counter, char parse_symb)
 				in_screening(for_sem->line, i) == 0)
 		{
 			semicolon_realloc(for_sem, *counter, i);
-			for_sem->rem = ft_realloc(for_sem->rem, \
-					ft_strlen(for_sem->rem), ft_strlen(for_sem->line) - i);
-			ft_strlcpy(for_sem->rem, for_sem->line + i + 1, \
-					ft_strlen(for_sem->line + i));
 			for_sem->previous_semicolon_position = i;
 			*counter += 1;
 		}
@@ -120,7 +117,6 @@ char	**semicolon(char *line, char parse_symb)
 	line_len = ft_strlen(line);
 	args_amount = args_counter(line_len, parse_symb, line);
 	for_semicolon.previous_semicolon_position = 0;
-	for_semicolon.rem = NULL;
 	for_semicolon.line = line;
 	counter = 0;
 	i = 0;
@@ -133,7 +129,5 @@ char	**semicolon(char *line, char parse_symb)
 		i++;
 	}
 	semicolon_realloc(&for_semicolon, counter, i);
-	if (for_semicolon.rem)
-		free(for_semicolon.rem);
 	return (for_semicolon.parsed_by_semicolon);
 }

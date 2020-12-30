@@ -6,11 +6,32 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 23:01:49 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/29 12:41:52 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/30 11:30:31 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	free_listof_redirects(r_data **lst)
+{
+	r_data	*tmp;
+
+	if (!lst)
+		return ;
+	while (*lst)
+	{
+		if ((*lst)->file_name)
+			free((*lst)->file_name);
+		if ((*lst)->redir_type)
+			free((*lst)->redir_type);
+		if ((*lst)->red_fd >= 0)
+			close((*lst)->red_fd);
+		tmp = *lst;
+		*lst = tmp->next;
+		free(tmp);
+	}
+	*lst = NULL;
+}
 
 void	ft_redadd_back(r_data **lst, r_data *new)
 {
@@ -39,6 +60,7 @@ r_data	*ft_init_red(void)
     new->file_name = NULL;
 	new->next = NULL;
 	new->redir_type = NULL;
+	new->red_fd = -2;
 	return (new);
 }
 
@@ -92,11 +114,9 @@ char		*redirect_handler(t_data *vars, char *line)
 	r_data  *tmp_red;
 	char	*result;
 	int		i;
-	//int		flag_quote;
 	char	*tmp_for_free;
 
 	i = 0;
-	//flag_quote = 0;
 	result = NULL;
 	while (line[i] != '\0')
 	{		
