@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 13:44:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/30 17:19:56 by ddraco           ###   ########.fr       */
+/*   Updated: 2020/12/30 23:30:20 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ int				get_next_line(int fd, char **line)
 	if (!(buf = valid(line, BUFFER_SIZE, fd)))
 		return (-1);
 	p = rem_ch(&rem, line);
-	while (!p && (was_read = (int)read(fd, buf, BUFFER_SIZE)))
+	while ((!p && (was_read = (int)read(fd, buf, BUFFER_SIZE))) || ((ft_strcmp(*line, "") != 0) && (was_read == 0)))
 	{
 		buf[was_read] = '\0';
-		//(was_read == 0 || buf[was_read - 1] != '\n') ? printf("  \b\b") : 0; //???
 		if ((p = ft_strchr(buf, '\n')))
 		{
 			*p = '\0';
@@ -83,5 +82,7 @@ int				get_next_line(int fd, char **line)
 		free(tmp);
 	}
 	free(buf);
+	if (was_read == 0)
+		return (-2);
 	return (p) ? 1 : 0;
 }

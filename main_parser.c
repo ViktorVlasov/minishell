@@ -89,24 +89,26 @@ int main(int argc, char **argv, char **envp)
     (void)argv;
     
 	char	*line;
-	// char    *line = "pwd | pwd | pwd | pwd | pwd | pwd | pwd | pwd; export ;export abrakadabra; unset abrakadabra; export; env; pwd; echo \"abc\"; ls -la; cd .; grep \"abc\" < test_abc >> test_output | echo 123 > test_out123 >> test_out_f123 | env >> env.txt | export >> env.txt";
+	//char    *line = "ls -la; asd dasdasd";
     // | echo 123 > test_out123 >> test_out_f123 | env >> env.txt | export >> env.txt";
     
 	// t_data  *vars;
-    vars = ft_init(envp);    
+    vars = ft_init(envp);
     init_structure(vars);
     // start(line, vars);
-
+    int gnl_ret;
 	signal(SIGQUIT, &sig_quit);
 	signal(SIGINT, &sig_int);
     ft_putstr_fd("minishell: ", 1);
-    while (get_next_line(0, &line) > 0)
+    while ((gnl_ret = get_next_line(0, &line)) > 0)
     {
         start(line, vars);
         free(line);
         ft_putstr_fd("minishell: ", 1);
     }
-
+    free(line);
+    if (gnl_ret == -2)
+        ft_putstr_fd("exit\n", 2);
     ft_free_array(&vars->envp);
     free(vars);
 }
