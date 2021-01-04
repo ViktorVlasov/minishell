@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   workers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:03:43 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 18:15:59 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/31 13:25:49 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char	*variable_handler(char *str, char *dst, int *iterator, t_data *vars)
 	var = handle_var_name(iterator, str);
 	if (var && var[0] == '?')
 		dst = ft_itoa(vars->err_status);
+	if (var && var[0] == '=' && var[1] == '\0')
+		dst = ft_strdup("$");
 	rez = get_value_from_var(vars->envp, var);
 	if (var)
 		free(var);

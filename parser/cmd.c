@@ -6,7 +6,7 @@
 /*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 23:59:09 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/31 00:10:05 by efumiko          ###   ########.fr       */
+/*   Updated: 2020/12/31 15:00:30 by efumiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	cmd_exec(t_data *vars)
 		}
 		do_cmd(current_pipe, 1);
 		dup2(vars->fd0, 0);
+		dup2(vars->fd1, 1);
 	}
 	else
 		one_command(vars);
