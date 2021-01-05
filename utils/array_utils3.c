@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:40:19 by efumiko           #+#    #+#             */
-/*   Updated: 2020/12/30 23:55:59 by efumiko          ###   ########.fr       */
+/*   Updated: 2021/01/05 12:17:40 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,15 @@ int		in_commas(char *line, int symb_id, char comma_type)
 
 int		in_screening(char *line, int symb_id)
 {
+	int	iterator;
+
+	iterator = symb_id;
 	if (line[symb_id - 1] == '\\')
-		return (1);
+	{
+		while (iterator > 0 && line[iterator] == '\\')
+			iterator--;
+		if ((symb_id - iterator) % 2 != 0)
+			return (1);
+	}
 	return (0);
 }

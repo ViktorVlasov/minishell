@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/05 19:12:51 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/26 18:07:03 by efumiko          ###   ########.fr       */
+/*   Updated: 2021/01/05 13:24:25 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,19 @@ void	*ft_realloc(void *ptr, int size, int newsize)
 	if (ptr && size != 0)
 		free(ptr);
 	return (new);
+}
+
+void	take_out_spaces(char **parsed_by_semicolon, int commands_amount)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	while (i < commands_amount)
+	{
+		tmp = parsed_by_semicolon[i];
+		parsed_by_semicolon[i] = ft_strtrim(parsed_by_semicolon[i], " ");
+		free(tmp);
+		i++;
+	}
 }

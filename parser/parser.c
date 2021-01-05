@@ -3,37 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efumiko <efumiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ddraco <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 16:48:08 by ddraco            #+#    #+#             */
-/*   Updated: 2020/12/31 00:17:20 by efumiko          ###   ########.fr       */
+/*   Updated: 2021/01/05 13:34:02 by ddraco           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
+char		*just_add_worker(char *line, int *i, char *buffer)
+{
+	if (line[*i] == '\\')
+		*i += 1;
+	buffer = add_char(buffer, line[*i]);
+	return (buffer);
+}
+
 char		*pars_one_arg(int *i, char *line, t_data *vars)
 {
 	char	*buffer;
 	char	*spec_symbols;
 
-	spec_symbols = "$'\"";
+	spec_symbols = "$'\"<>";
 	buffer = NULL;
 	while (line[*i] != ' ' && line[*i] != '\0')
 	{
 		if (ft_strchr(spec_symbols, line[*i]) == NULL)
-		{
-			if (line[*i] == '\\')
-				*i += 1;
-			buffer = add_char(buffer, line[*i]);
-		}
+			buffer = just_add_worker(line, i, buffer);
 		else if (line[*i] == '\'')
 			buffer = one_comma_worker(i, buffer, line);
 		else if (line[*i] == '\"')
 			buffer = two_comma_worker(i, buffer, line, vars);
 		else if (line[*i] == '$')
 			buffer = variable_handler(line, buffer, i, vars);
+		else if (line[*i] == '>' || line[*i] == '<')
+			break ;
 		if (line[*i] != '\0')
 			*i += 1;
 	}
@@ -64,21 +70,6 @@ void		parse_command(char *command, t_data *vars)
 			ready_array_size += 1;
 		}
 		buffer = NULL;
-	}
-}
-
-void		take_out_spaces(char **parsed_by_semicolon, int commands_amount)
-{
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	while (i < commands_amount)
-	{
-		tmp = parsed_by_semicolon[i];
-		parsed_by_semicolon[i] = ft_strtrim(parsed_by_semicolon[i], " ");
-		free(tmp);
-		i++;
 	}
 }
 
